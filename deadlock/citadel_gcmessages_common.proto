@@ -258,6 +258,14 @@ message CSOCitadelHideoutLobby {
 		optional bool hideout_holiday_award_2025 = 32;
 	}
 
+	enum EServerStatus {
+		k_eNoServer = 0;
+		k_eServerAssigned = 1;
+		k_eTooFewPlayers = 2;
+		k_ePlayersInMatch = 3;
+		k_eDisabled = 4;
+	}
+
 	optional uint64 hideout_lobby_id = 1;
 	optional uint64 party_id = 2;
 	optional fixed64 server_steam_id = 3;
@@ -269,6 +277,7 @@ message CSOCitadelHideoutLobby {
 	repeated .CSOCitadelHideoutLobby.Member members = 9;
 	optional uint32 active_account_hideout = 10;
 	repeated .CExtraMsgBlock extra_messages = 11;
+	optional .CSOCitadelHideoutLobby.EServerStatus server_status = 12 [default = k_eNoServer];
 }
 
 message CLobbyData_PostMatchSurvey {
