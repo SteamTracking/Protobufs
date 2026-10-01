@@ -701,6 +701,8 @@ message CCitadelUserMsg_HudGameAnnouncement {
 	repeated string dialog_variable_locstring = 5;
 	optional float duration_override = 6;
 	optional string snippet_panel = 7;
+	repeated string dialog_variable_int_name = 8;
+	repeated int32 dialog_variable_int_value = 9;
 }
 
 message CCitadelUserMessage_ImportantAbilityUsed {
