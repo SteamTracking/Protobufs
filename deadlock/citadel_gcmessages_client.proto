@@ -1850,6 +1850,7 @@ message CMsgGCToClientRankDataUpdate {
 
 message CMsgClientToGCRequestHeroReleaseVoteTally {
 	repeated uint32 vote_rounds = 1 [packed = true];
+	optional bool is_initial_request = 2;
 }
 
 message CMsgGCToClientUpdateHeroReleaseVoteTally {
