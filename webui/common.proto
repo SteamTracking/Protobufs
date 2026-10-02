@@ -4504,43 +4504,21 @@ message CMsgSteamDatagramCertificateSigned {
 message CMsgSteamDatagramClientPingSampleReply {
 	optional fixed32 connection_id = 1;
 	repeated .CMsgSteamDatagramClientPingSampleReply_POP pops = 2;
-	repeated .CMsgSteamDatagramClientPingSampleReply_LegacyDataCenter legacy_data_centers = 3;
 	optional bool relay_override_active = 5;
 	optional .CMsgTOSTreatment tos = 6;
 }
 
 // Used by: common.proto
-message CMsgSteamDatagramClientPingSampleReply_LegacyDataCenter {
-	optional fixed32 data_center_id = 1;
-	optional fixed32 best_dc_via_relay_pop_id = 2;
-	optional uint32 best_dc_ping_ms = 3;
-}
-
-// Used by: common.proto
 message CMsgSteamDatagramClientPingSampleReply_POP {
 	optional fixed32 pop_id = 1;
-	optional uint32 default_front_ping_ms = 2;
-	optional uint32 default_e2e_ping_ms = 3;
-	optional uint32 cluster_penalty = 4;
-	optional uint32 default_e2e_score = 5;
-	optional fixed32 p2p_via_peer_relay_pop_id = 6;
-	repeated .CMsgSteamDatagramClientPingSampleReply_POP_AltAddress alt_addresses = 7;
-	optional uint32 best_dc_ping_ms = 9;
-	optional uint32 best_dc_score = 10;
-	optional fixed32 best_dc_via_relay_pop_id = 11;
-	optional uint32 default_dc_ping_ms = 12;
-	optional uint32 default_dc_score = 13;
-	optional fixed32 default_dc_via_relay_pop_id = 14;
-	optional uint32 test_dc_ping_ms = 15;
-	optional uint32 test_dc_score = 16;
-	optional fixed32 test_dc_via_relay_pop_id = 17;
-}
-
-// Used by: common.proto
-message CMsgSteamDatagramClientPingSampleReply_POP_AltAddress {
-	optional string id = 1;
 	optional uint32 front_ping_ms = 2;
-	optional uint32 penalty = 3;
+	optional uint32 e2e_ping_ms = 3;
+	optional uint32 cluster_penalty = 4;
+	optional uint32 e2e_score = 5;
+	optional fixed32 e2e_p2p_peer_relay_pop_id = 6;
+	optional uint32 dc_ping_ms = 9;
+	optional uint32 dc_score = 10;
+	optional fixed32 dc_via_relay_pop_id = 11;
 }
 
 message CMsgSteamDatagramClientPingSampleRequest {
@@ -4560,6 +4538,7 @@ message CMsgSteamDatagramClientSwitchedPrimary {
 	optional .CMsgSteamDatagramClientSwitchedPrimary_RouterQuality to_quality_now = 10;
 	optional .CMsgSteamDatagramClientSwitchedPrimary_RouterQuality from_quality_then = 11;
 	optional .CMsgSteamDatagramClientSwitchedPrimary_RouterQuality to_quality_then = 12;
+	optional int32 from_migrate_request = 13 [(.description) = "enum"];
 }
 
 // Used by: common.proto
@@ -6451,10 +6430,11 @@ message CStreamingClientConfig {
 	optional int32 window_frame_offset_x = 33;
 	optional int32 window_frame_offset_y = 34;
 	optional bool enable_video_pyrowave = 35 [default = false];
-	optional bool pyrowave_custom_bitrate = 36;
-	optional int32 pyrowave_custom_bitrate_kbps = 37;
+	optional bool pyrowave_custom_bitrate_OBSOLETE = 36;
+	optional int32 pyrowave_custom_bitrate_kbps_OBSOLETE = 37;
 	optional float pyrowave_quality_modifier = 38;
 	optional bool pyrowave_yuv444 = 39;
+	optional int32 pyrowave_bitrate_kbps = 40 [default = -1];
 }
 
 // Used by: common.proto

@@ -164,41 +164,21 @@ message CMsgSteamDatagramClientPingSampleRequest {
 
 message CMsgSteamDatagramClientPingSampleReply {
 	message POP {
-		message AltAddress {
-			optional string id = 1;
-			optional uint32 front_ping_ms = 2;
-			optional uint32 penalty = 3;
-		}
-
 		optional fixed32 pop_id = 1;
-		optional uint32 default_front_ping_ms = 2;
+		optional uint32 front_ping_ms = 2;
 		optional uint32 cluster_penalty = 4;
-		repeated .CMsgSteamDatagramClientPingSampleReply.POP.AltAddress alt_addresses = 7;
-		optional uint32 default_e2e_ping_ms = 3;
-		optional uint32 default_e2e_score = 5;
-		optional fixed32 p2p_via_peer_relay_pop_id = 6;
-		optional uint32 best_dc_ping_ms = 9;
-		optional uint32 best_dc_score = 10;
-		optional fixed32 best_dc_via_relay_pop_id = 11;
-		optional uint32 default_dc_ping_ms = 12;
-		optional uint32 default_dc_score = 13;
-		optional fixed32 default_dc_via_relay_pop_id = 14;
-		optional uint32 test_dc_ping_ms = 15;
-		optional uint32 test_dc_score = 16;
-		optional fixed32 test_dc_via_relay_pop_id = 17;
-	}
-
-	message LegacyDataCenter {
-		optional fixed32 data_center_id = 1;
-		optional fixed32 best_dc_via_relay_pop_id = 2;
-		optional uint32 best_dc_ping_ms = 3;
+		optional uint32 e2e_ping_ms = 3;
+		optional uint32 e2e_score = 5;
+		optional fixed32 e2e_p2p_peer_relay_pop_id = 6;
+		optional uint32 dc_ping_ms = 9;
+		optional uint32 dc_score = 10;
+		optional fixed32 dc_via_relay_pop_id = 11;
 	}
 
 	optional fixed32 connection_id = 1;
 	optional bool relay_override_active = 5;
 	optional .CMsgTOSTreatment tos = 6;
 	repeated .CMsgSteamDatagramClientPingSampleReply.POP pops = 2;
-	repeated .CMsgSteamDatagramClientPingSampleReply.LegacyDataCenter legacy_data_centers = 3;
 }
 
 message CMsgSteamDatagramClientSwitchedPrimary {
@@ -207,6 +187,13 @@ message CMsgSteamDatagramClientSwitchedPrimary {
 		optional uint32 front_ping = 2;
 		optional uint32 back_ping = 3;
 		optional uint32 seconds_until_down = 4;
+	}
+
+	enum EMigrateRequest {
+		k_EMigrateRequest_Unknown = 0;
+		k_EMigrateRequest_None = 1;
+		k_EMigrateRequest_ObeyedTarget = 2;
+		k_EMigrateRequest_ChoseDifferent = 3;
 	}
 
 	optional fixed32 connection_id = 1;
@@ -221,6 +208,7 @@ message CMsgSteamDatagramClientSwitchedPrimary {
 	optional .CMsgSteamDatagramClientSwitchedPrimary.RouterQuality to_quality_now = 10;
 	optional .CMsgSteamDatagramClientSwitchedPrimary.RouterQuality from_quality_then = 11;
 	optional .CMsgSteamDatagramClientSwitchedPrimary.RouterQuality to_quality_then = 12;
+	optional .CMsgSteamDatagramClientSwitchedPrimary.EMigrateRequest from_migrate_request = 13 [default = k_EMigrateRequest_Unknown];
 }
 
 message CMsgSteamDatagramConnectRequest {
