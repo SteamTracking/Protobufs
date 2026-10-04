@@ -10,6 +10,6 @@ option objc_class_prefix = "GPB";
 option csharp_namespace = "Google.Protobuf.WellKnownTypes";
 
 message Any {
-	optional string type_url = 1;
-	optional bytes value = 2;
+	string type_url = 1;
+	bytes value = 2;
 }

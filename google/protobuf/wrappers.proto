@@ -11,37 +11,37 @@ option objc_class_prefix = "GPB";
 option csharp_namespace = "Google.Protobuf.WellKnownTypes";
 
 message DoubleValue {
-	optional double value = 1;
+	double value = 1;
 }
 
 message FloatValue {
-	optional float value = 1;
+	float value = 1;
 }
 
 message Int64Value {
-	optional int64 value = 1;
+	int64 value = 1;
 }
 
 message UInt64Value {
-	optional uint64 value = 1;
+	uint64 value = 1;
 }
 
 message Int32Value {
-	optional int32 value = 1;
+	int32 value = 1;
 }
 
 message UInt32Value {
-	optional uint32 value = 1;
+	uint32 value = 1;
 }
 
 message BoolValue {
-	optional bool value = 1;
+	bool value = 1;
 }
 
 message StringValue {
-	optional string value = 1;
+	string value = 1;
 }
 
 message BytesValue {
-	optional bytes value = 1;
+	bytes value = 1;
 }

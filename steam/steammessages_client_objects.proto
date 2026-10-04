@@ -78,7 +78,7 @@ message CMsgNetworkDeviceIP4Config {
 }
 
 message CMsgNetworkDeviceIP6Address {
-	optional string ip = 1;
+	optional string ip = 1 [default = ""];
 }
 
 message CMsgNetworkDeviceIP6Config {

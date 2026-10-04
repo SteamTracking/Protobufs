@@ -334,8 +334,8 @@ message CHTMLHeader {
 message CHTMLPageSecurityInfo {
 	optional bool bIsSecure = 1 [default = false];
 	optional bool bHasCertError = 2 [default = false];
-	optional string issuerName = 3;
-	optional string certName = 4;
+	optional string issuerName = 3 [default = ""];
+	optional string certName = 4 [default = ""];
 	optional int32 certExpiry = 5 [default = 0];
 	optional int32 nCertBits = 6 [default = 0];
 	optional bool bIsEVCert = 7 [default = false];

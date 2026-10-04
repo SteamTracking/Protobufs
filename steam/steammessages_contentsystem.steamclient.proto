@@ -18,9 +18,9 @@ message CContentServerDirectory_ConnectedSteamPipeServerInfo {
 message CContentServerDirectory_GetServersForSteamPipe_Request {
 	optional uint32 cell_id = 1;
 	optional uint32 max_servers = 2 [default = 20];
-	optional string ip_override = 3;
+	optional string ip_override = 3 [default = ""];
 	optional int32 launcher_type = 4 [default = 0];
-	optional string ipv6_public = 5;
+	optional string ipv6_public = 5 [default = ""];
 	repeated .CContentServerDirectory_ConnectedSteamPipeServerInfo current_connections = 6;
 }
 

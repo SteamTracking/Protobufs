@@ -173,12 +173,16 @@ message CMsgSteamDatagramClientPingSampleReply {
 		optional uint32 dc_ping_ms = 9;
 		optional uint32 dc_score = 10;
 		optional fixed32 dc_via_relay_pop_id = 11;
+
+		reserved 7, 12 to 17;
 	}
 
 	optional fixed32 connection_id = 1;
 	optional bool relay_override_active = 5;
 	optional .CMsgTOSTreatment tos = 6;
 	repeated .CMsgSteamDatagramClientPingSampleReply.POP pops = 2;
+
+	reserved 3;
 }
 
 message CMsgSteamDatagramClientSwitchedPrimary {
