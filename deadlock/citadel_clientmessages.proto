@@ -1,5 +1,6 @@
 import "networkbasetypes.proto";
 import "citadel_gcmessages_common.proto";
+import "google/protobuf/descriptor.proto";
 
 enum ECitadelClientMessages {
 	CITADEL_CM_MapPing = 1002;

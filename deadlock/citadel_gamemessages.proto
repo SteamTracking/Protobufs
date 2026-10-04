@@ -1,4 +1,5 @@
 import "citadel_gcmessages_common.proto";
+import "google/protobuf/descriptor.proto";
 
 enum ECitadelGameMessages {
 	k_EMsgGameServerToClientConnectionStatus = 10;

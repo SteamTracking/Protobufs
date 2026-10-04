@@ -206,7 +206,9 @@ message CPlayer_GetGameAchievements_Response_Achievement {
 	optional string player_percent_unlocked = 7;
 	optional uint32 internal_key = 8;
 	optional int32 min_progress_int = 9;
+	//optional uint32 min_progress = 9;
 	optional int32 max_progress_int = 10;
+	//optional uint32 max_progress = 10;
 	optional uint32 groupid = 11;
 	optional bool archived = 12;
 	optional int32 progress_type = 13 [(.description) = "enum"];

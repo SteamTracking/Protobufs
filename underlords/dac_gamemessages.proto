@@ -1128,13 +1128,8 @@ message CMsgRoundCombatGlobal {
 		repeated .CMsgCombatEvent events = 1;
 	}
 
-	message CombatPlayerSlotToEventsEntry {
-		optional uint32 key = 1;
-		optional .CMsgRoundCombatGlobal.EventList value = 2;
-	}
-
 	optional int32 round_number = 1;
-	repeated .CMsgRoundCombatGlobal.CombatPlayerSlotToEventsEntry combat_player_slot_to_events = 2;
+	map<uint32, .CMsgRoundCombatGlobal.EventList> combat_player_slot_to_events = 2;
 }
 
 message CMsgClientServerHeader {

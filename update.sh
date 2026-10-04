@@ -32,7 +32,8 @@ for ENTRY in "${REPOS[@]}"; do
 	rsync -a --delete "${REPO_DIR}/${FOLDER}/" "${DEST}/"
 done
 
-cp -r ./steam/google ./
+# webui protos are dumped from javascript, which has no descriptor.proto, and they are Steam's protos
+cp -r ./steam/google ./webui/
 rm -rf sources
 
 git add -A

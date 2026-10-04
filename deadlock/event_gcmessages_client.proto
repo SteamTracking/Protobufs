@@ -1,6 +1,7 @@
 import "gcsdk_gcmessages.proto";
 import "events.proto";
 import "event_gcmessages_common.proto";
+import "google/protobuf/descriptor.proto";
 
 option additional_includes = "events/periodic_resource_schema.h";
 

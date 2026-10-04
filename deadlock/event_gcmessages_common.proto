@@ -1,3 +1,5 @@
+import "google/protobuf/descriptor.proto";
+
 option additional_includes = "events/base_event_schema.h";
 option additional_includes = "events/periodic_resource_schema.h";
 

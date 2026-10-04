@@ -2,6 +2,7 @@ import "steammessages.proto";
 import "gcsdk_gcmessages.proto";
 import "base_gcmessages.proto";
 import "valveextensions.proto";
+import "google/protobuf/descriptor.proto";
 
 option additional_includes = "citadel_constants.h";
 option additional_includes = "citadel_stat_tracker.h";

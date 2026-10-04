@@ -1,6 +1,7 @@
 import "valveextensions.proto";
 import "networkbasetypes.proto";
 import "usercmd.proto";
+import "google/protobuf/descriptor.proto";
 
 option additional_includes = "basetypes.h";
 

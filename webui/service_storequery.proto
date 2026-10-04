@@ -2,7 +2,7 @@ import "common.proto";
 import "common_base.proto";
 
 message CStoreQuery_GetItemByUserCombinedTagsPriority_Request {
-	optional int32 sort = 1 [default = Identifier, (.description) = "enum"];
+	optional int32 sort = 1 [(.description) = "enum"];
 	optional uint32 max_items = 2;
 	optional bool randomize = 3;
 	optional bool include_packages = 4 [default = false];
@@ -24,7 +24,7 @@ message CStoreQuery_GetItemsByUserRecommendedTags_Request {
 }
 
 message CStoreQuery_GetItemsByUserRecommendedTags_Request_Section {
-	optional int32 sort = 1 [default = Identifier, (.description) = "enum"];
+	optional int32 sort = 1 [(.description) = "enum"];
 	optional uint32 min_items = 2;
 	optional bool randomize = 3;
 	optional bool include_packages = 4 [default = false];
@@ -160,7 +160,7 @@ message CStoreQueryFilters_TypeFilters {
 message CStoreQueryParams {
 	optional int32 start = 1 [default = 0];
 	optional int32 count = 2 [default = 10];
-	optional int32 sort = 10 [default = Identifier, (.description) = "enum"];
+	optional int32 sort = 10 [(.description) = "enum"];
 	optional .CStoreQueryFilters filters = 20;
 }
 
