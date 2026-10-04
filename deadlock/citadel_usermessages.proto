@@ -3,6 +3,11 @@ import "citadel_gcmessages_common.proto";
 import "gameevents.proto";
 import "valveextensions.proto";
 
+option additional_includes = "citadel_constants.h";
+option additional_includes = "modifiers/modifier_handle.h";
+option additional_includes = "basetypes.h";
+option additional_includes = "entityhandle.h";
+
 enum CitadelUserMessageIds {
 	k_EUserMsg_Damage = 300;
 	k_EUserMsg_MapPing = 303;
@@ -160,10 +165,10 @@ message CCitadelUserMessage_Damage {
 	optional int32 type = 3;
 	optional int32 citadel_type = 4;
 	optional .CMsgVector origin = 5;
-	optional int32 entindex_victim = 6 [default = -1];
-	optional int32 entindex_inflictor = 7 [default = -1];
-	optional int32 entindex_attacker = 8 [default = -1];
-	optional int32 entindex_ability = 9 [default = -1];
+	optional int32 entindex_victim = 6 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
+	optional int32 entindex_inflictor = 7 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
+	optional int32 entindex_attacker = 8 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
+	optional int32 entindex_ability = 9 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
 	optional int32 damage_absorbed_deprecated = 10;
 	optional float damage_absorbed = 28;
 	optional int32 victim_health_max = 11;
@@ -171,14 +176,14 @@ message CCitadelUserMessage_Damage {
 	optional uint64 flags = 13;
 	optional uint32 ability_id = 14;
 	optional uint32 attacker_class = 15;
-	optional uint32 attacker_subclass = 31;
+	optional uint32 attacker_subclass = 31 [boxed_type = "EntitySubclassID_t"];
 	optional uint32 victim_class = 16;
 	optional int32 victim_shield_max = 17;
 	optional int32 victim_shield_new = 18;
 	optional int32 hits = 19;
 	optional int32 health_lost = 20;
 	optional int32 hitgroup_id = 21;
-	optional int32 entindex_attacking_object = 22 [default = -1];
+	optional int32 entindex_attacking_object = 22 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
 	optional .CMsgVector damage_direction = 23;
 	optional bool is_secondary_stat = 24;
 	optional float effectiveness = 25;
@@ -187,10 +192,10 @@ message CCitadelUserMessage_Damage {
 }
 
 message PingCommonData {
-	optional uint32 ping_message_id = 1;
+	optional uint32 ping_message_id = 1 [boxed_type = "PingMessageID_t"];
 	optional .CMsgVector ping_location = 2;
-	optional uint32 entity_index = 3 [default = 16777215];
-	optional int32 sender_player_slot = 4 [default = -1];
+	optional uint32 entity_index = 3 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
+	optional int32 sender_player_slot = 4 [default = -1, boxed_type = "CPlayerSlot", synthetic_default = "-1"];
 	optional int32 speech_concept = 5;
 	optional string response_chosen = 6;
 	optional float cooldown_time = 7;
@@ -213,7 +218,7 @@ message CCitadelUserMsg_MapPing {
 
 message CCitadelUserMsg_PingWheel {
 	optional .PingCommonData ping_data = 1;
-	optional uint32 ping_wheel_option_id = 2;
+	optional uint32 ping_wheel_option_id = 2 [boxed_type = "PingWheelOptionID_t"];
 	optional bool pinged_enemy_entity = 3;
 	optional bool is_blind_ping = 4;
 }
@@ -227,8 +232,10 @@ message CCitadelUserMsg_AbilityPing {
 
 message CCitadelUserMsg_QuickResponse {
 	optional .PingCommonData ping_data = 1;
-	optional uint32 responding_to_ping_message_id = 2;
-	optional int32 responding_to_player_slot = 3 [default = -1];
+	optional uint32 responding_to_ping_message_id = 2 [boxed_type = "PingMessageID_t"];
+	optional int32 responding_to_player_slot = 3 [default = -1, boxed_type = "CPlayerSlot", synthetic_default = "-1"];
+
+	reserved 4;
 }
 
 message CCitadelUserMsg_ItemDraftReaction {
@@ -238,7 +245,7 @@ message CCitadelUserMsg_ItemDraftReaction {
 }
 
 message CCitadelUserMsg_MapLine {
-	optional int32 sender_player_slot = 1 [default = -1];
+	optional int32 sender_player_slot = 1 [default = -1, boxed_type = "CPlayerSlot", synthetic_default = "-1"];
 	optional .CMsgMapLine mapline = 2;
 }
 
@@ -249,8 +256,8 @@ message CCitadelUserMsg_TeamRewards {
 }
 
 message CCitadelUserMsg_TriggerDamageFlash {
-	optional int32 entindex_flash_victim = 1 [default = -1];
-	optional int32 entindex_flash_attacker = 2 [default = -1];
+	optional int32 entindex_flash_victim = 1 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
+	optional int32 entindex_flash_attacker = 2 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
 	optional int32 entindex_flash_hitgroup = 3;
 	optional uint32 flash_value = 4;
 	optional uint32 flash_type = 5;
@@ -269,22 +276,22 @@ message CCitadelUserMsg_AbilitiesChanged {
 		EFailure = 5;
 	}
 
-	optional int32 purchaser_player_slot = 1 [default = -1];
+	optional int32 purchaser_player_slot = 1 [default = -1, boxed_type = "CPlayerSlot", synthetic_default = "-1"];
 	optional uint32 ability_id = 2;
 	optional .CCitadelUserMsg_AbilitiesChanged.Change change = 3 [default = EInvalid];
 }
 
 message CCitadelUserMsg_AbilityInterrupted {
-	optional int32 entindex_victim = 1 [default = -1];
-	optional int32 entindex_interrupter = 2 [default = -1];
+	optional int32 entindex_victim = 1 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
+	optional int32 entindex_interrupter = 2 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
 	optional uint32 ability_id_interrupted = 3;
 	optional uint32 ability_id_interrupter = 4;
-	optional uint32 hero_id_interrupter = 5;
+	optional uint32 hero_id_interrupter = 5 [boxed_type = "HeroID_t"];
 }
 
 message CCitadelUserMsg_AbilityLateFailure {
-	optional int32 entindex_caster = 1 [default = -1];
-	optional int32 entindex_ability = 2 [default = -1];
+	optional int32 entindex_caster = 1 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
+	optional int32 entindex_ability = 2 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
 	optional uint32 failure_type = 3;
 }
 
@@ -295,31 +302,31 @@ message CCitadelUserMsg_RecentDamageSummary {
 		optional int32 damage = 1;
 		optional int32 hits = 2;
 		optional uint32 damage_type = 3;
-		optional uint32 hero_id = 4;
+		optional uint32 hero_id = 4 [boxed_type = "HeroID_t"];
 		optional uint32 ability_id = 5;
 		optional uint32 attacker_class = 6;
 		optional float damage_absorbed = 7;
 		optional bool is_killing_blow = 8;
-		optional uint32 victim_hero_id = 9;
+		optional uint32 victim_hero_id = 9 [boxed_type = "HeroID_t"];
 		optional bool is_secondary_stat = 10;
 		optional float pre_damage = 11;
 		optional float crit_damage = 12;
-		optional uint32 attacker_subclass = 13;
+		optional uint32 attacker_subclass = 13 [boxed_type = "EntitySubclassID_t"];
 	}
 
 	message ModifierRecord {
 		optional uint32 ability_id = 1;
 		optional uint32 modifier_type_id = 2;
-		optional int32 entindex_caster = 3 [default = -1];
-		optional float start_time = 4;
-		optional float end_time = 5;
+		optional int32 entindex_caster = 3 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
+		optional float start_time = 4 [boxed_type = "GameTime_t"];
+		optional float end_time = 5 [boxed_type = "GameTime_t"];
 		optional bool debuff = 6;
 	}
 
-	optional int32 player_slot = 1 [default = -1];
+	optional int32 player_slot = 1 [default = -1, boxed_type = "CPlayerSlot", synthetic_default = "-1"];
 	repeated .CCitadelUserMsg_RecentDamageSummary.DamageRecord damage_records = 2;
-	optional float start_time = 3;
-	optional float end_time = 4;
+	optional float start_time = 3 [boxed_type = "GameTime_t"];
+	optional float end_time = 4 [boxed_type = "GameTime_t"];
 	optional int32 total_damage = 5;
 	optional int32 lost_gold = 6;
 	repeated .CCitadelUserMsg_RecentDamageSummary.ModifierRecord modifier_records = 7;
@@ -331,16 +338,16 @@ message CCitadelUserMsg_SpectatorTeamChanged {
 
 message CCitadelUserMsg_ChatWheel {
 	optional uint32 chat_message_id = 1;
-	optional int32 player_slot = 2 [default = -1];
-	optional int32 pawn_entindex = 3 [default = -1];
+	optional int32 player_slot = 2 [default = -1, boxed_type = "CPlayerSlot", synthetic_default = "-1"];
+	optional int32 pawn_entindex = 3 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
 	optional uint32 account_id = 4;
-	optional uint32 hero_id = 5;
+	optional uint32 hero_id = 5 [boxed_type = "HeroID_t"];
 	optional string param_1 = 6;
 	optional .CMsgLaneColor lane_color = 7 [default = k_ELaneColor_Invalid];
 }
 
 message CCitadelUserMsg_ChatMsg {
-	optional int32 player_slot = 1 [default = -1];
+	optional int32 player_slot = 1 [default = -1, boxed_type = "CPlayerSlot", synthetic_default = "-1"];
 	optional string text = 2;
 	optional bool all_chat = 3;
 	optional .CMsgLaneColor lane_color = 4 [default = k_ELaneColor_Invalid];
@@ -358,7 +365,7 @@ message CCitadelUserMsg_GoldHistory {
 		repeated .CCitadelUserMsg_GoldHistory.GoldRecord gold_records = 2;
 	}
 
-	optional int32 entindex_player = 1 [default = -1];
+	optional int32 entindex_player = 1 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
 	repeated .CCitadelUserMsg_GoldHistory.MinuteRecord minute_records = 2;
 }
 
@@ -411,7 +418,7 @@ message CCitadelUserMsg_CameraController {
 	optional bool relative_values = 11;
 	optional uint32 context_symbol_id = 5;
 	optional uint32 priority = 13 [default = 1];
-	optional uint32 target_pawn = 14 [default = 16777215];
+	optional uint32 target_pawn = 14 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
 	optional .CCitadelUserMsg_CameraController.Maintain maintain = 6;
 	optional .CCitadelUserMsg_CameraController.Approach approach = 7;
 	optional .CCitadelUserMsg_CameraController.Spring spring = 8;
@@ -428,19 +435,19 @@ message CCitadelUserMsg_PostMatchDetails {
 message CCitadelUserMsg_ChatEvent {
 	optional .ECitadelChatMessage type = 1 [default = CITADEL_CHAT_MESSAGE_UNPAUSE_COUNTDOWN];
 	repeated uint32 values = 2;
-	repeated int32 player_slots = 3;
+	repeated int32 player_slots = 3 [boxed_type = "CPlayerSlot"];
 }
 
 message CCitadelUserMsg_HeroKilled {
-	optional int32 entindex_victim = 1 [default = -1];
-	optional int32 entindex_inflictor = 2 [default = -1];
-	optional int32 entindex_attacker = 3 [default = -1];
-	repeated int32 entindex_assisters = 4;
-	optional int32 entindex_scorer = 5 [default = -1];
+	optional int32 entindex_victim = 1 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
+	optional int32 entindex_inflictor = 2 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
+	optional int32 entindex_attacker = 3 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
+	repeated int32 entindex_assisters = 4 [boxed_type = "CEntityIndex"];
+	optional int32 entindex_scorer = 5 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
 	optional int32 respawn_reason = 6;
 	optional int32 victim_team_number = 7;
 	optional int32 killfeed_gold = 8;
-	optional uint32 killer_ability_id = 9;
+	optional uint32 killer_ability_id = 9 [boxed_type = "EntitySubclassID_t"];
 }
 
 message CCitadelEntityMsg_BreakablePropSpawnDebris {
@@ -458,15 +465,15 @@ message CCitadelUserMsg_ReturnIdol {
 }
 
 message CCitadelUserMsg_SetClientCameraAngles {
-	optional int32 player_slot = 1 [default = -1];
+	optional int32 player_slot = 1 [default = -1, boxed_type = "CPlayerSlot", synthetic_default = "-1"];
 	optional .CMsgQAngle camera_angles = 2;
 }
 
 message CCitadelUserMessage_BulletHit {
 	optional int32 shotid = 1;
 	optional int32 pellet = 2;
-	optional int32 hit_entindex = 3 [default = -1];
-	optional int32 weapon_entindex = 4 [default = -1];
+	optional int32 hit_entindex = 3 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
+	optional int32 weapon_entindex = 4 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
 	optional bool is_predicted = 5;
 }
 
@@ -476,16 +483,16 @@ message CCitadelUserMessage_ObjectiveMask {
 }
 
 message CCitadelUserMessage_ModifierApplied {
-	optional int32 entindex_caster = 1 [default = -1];
-	optional int32 entindex_parent = 2 [default = -1];
+	optional int32 entindex_caster = 1 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
+	optional int32 entindex_parent = 2 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
 	optional int32 serial_number = 3;
 }
 
 message CCitadelUserMessage_AuraModifierApplied {
-	optional int32 entindex_caster = 1 [default = -1];
-	optional int32 entindex_target = 2 [default = -1];
+	optional int32 entindex_caster = 1 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
+	optional int32 entindex_target = 2 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
 	optional uint32 modifier_type_id = 3;
-	optional int32 modifier_serial_number = 4;
+	optional int32 modifier_serial_number = 4 [boxed_type = "ModifierSerialNumber_t"];
 	optional float aura_start_time = 5;
 	optional float aura_end_time = 6;
 }
@@ -494,7 +501,7 @@ message CCitadelUserMsg_ObstructedShotFired {
 }
 
 message CCitadelUserMsg_PostProcessingAnim {
-	optional int32 entindex_owner = 1 [default = -1];
+	optional int32 entindex_owner = 1 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
 	optional bool clear_all_states = 2;
 	optional .PostProcessingGameStates state = 3 [default = PostProcState_Killed];
 	optional float delay = 4;
@@ -505,8 +512,8 @@ message CCitadelUserMsg_PostProcessingAnim {
 }
 
 message CCitadelUserMsg_DeathReplayData {
-	optional int32 killer_scorer = 1 [default = -1];
-	optional int32 killer_inflictor = 2 [default = -1];
+	optional int32 killer_scorer = 1 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
+	optional int32 killer_inflictor = 2 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
 	optional .CCitadelUserMsg_RecentDamageSummary damage_summary = 3;
 }
 
@@ -525,37 +532,37 @@ message CCitadelUserMsg_PlayerLifetimeStatInfo {
 	}
 
 	repeated .CCitadelUserMsg_PlayerLifetimeStatInfo.Stat stats = 1;
-	optional uint64 match_id = 2;
+	optional uint64 match_id = 2 [boxed_type = "MatchID_t"];
 	optional bool end_of_match = 3;
 	optional bool is_official_match = 4;
 }
 
 message CCitadelUserMsg_StaminaConsumed {
-	optional uint32 target = 1 [default = 16777215];
+	optional uint32 target = 1 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
 	optional float stamina_before = 3;
 	optional float stamina_after = 4;
 	optional bool drained = 5;
 	optional float stamina_max = 6;
-	optional float gametime = 7;
+	optional float gametime = 7 [boxed_type = "GameTime_t"];
 	optional bool play_sound = 8;
 	optional bool periodic_update = 9;
 }
 
 message CCitadelUserMsg_AbilityNotify {
-	optional uint32 victim = 1 [default = 16777215];
-	optional uint32 attacker = 2 [default = 16777215];
+	optional uint32 victim = 1 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
+	optional uint32 attacker = 2 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
 	optional uint32 ability_id = 3;
 	optional uint32 status_impact = 4;
 	optional bool is_refresh = 5;
 }
 
 message CCitadelUserMsg_CurrencyChanged {
-	optional int32 userid = 1 [default = -1];
+	optional int32 userid = 1 [default = -1, boxed_type = "CPlayerSlot", synthetic_default = "-1"];
 	optional int32 currency_type = 2;
 	optional int32 currency_source = 3;
 	optional int32 delta = 4;
 	optional bool notification = 5;
-	optional uint32 victim = 6 [default = 16777215];
+	optional uint32 victim = 6 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
 	optional .CMsgVector victim_pos = 7;
 	optional int32 playsound = 8;
 	optional uint32 ability_id = 9;
@@ -581,46 +588,46 @@ message CCitadelUserMsg_GetDamageStatsResponse {
 
 message CCitadelUserMsg_ParticipantStartSoundEvent {
 	optional .CMsgSosStartSoundEvent event = 1;
-	repeated int32 player_slots = 2;
+	repeated int32 player_slots = 2 [boxed_type = "CPlayerSlot"];
 }
 
 message CCitadelUserMsg_ParticipantStopSoundEvent {
 	optional .CMsgSosStopSoundEvent event = 1;
-	repeated int32 player_slots = 2;
+	repeated int32 player_slots = 2 [boxed_type = "CPlayerSlot"];
 }
 
 message CCitadelUserMsg_ParticipantStopSoundEventHash {
 	optional .CMsgSosStopSoundEventHash event = 1;
-	repeated int32 player_slots = 2;
+	repeated int32 player_slots = 2 [boxed_type = "CPlayerSlot"];
 }
 
 message CCitadelUserMsg_ParticipantSetSoundEventParams {
 	optional .CMsgSosSetSoundEventParams event = 1;
-	repeated int32 player_slots = 2;
+	repeated int32 player_slots = 2 [boxed_type = "CPlayerSlot"];
 }
 
 message CCitadelUserMsg_ParticipantSetLibraryStackFields {
 	optional .CMsgSosSetLibraryStackFields event = 1;
-	repeated int32 player_slots = 2;
+	repeated int32 player_slots = 2 [boxed_type = "CPlayerSlot"];
 }
 
 message CCitadelUserMsg_BossKilled {
 	optional int32 objective_team = 1;
 	optional int32 objective_mask_change = 2;
-	optional uint32 entity_killed = 3 [default = 16777215];
+	optional uint32 entity_killed = 3 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
 	optional int32 entity_killed_class = 4;
-	optional uint32 entity_killer = 5 [default = 16777215];
-	optional float gametime = 6;
+	optional uint32 entity_killer = 5 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
+	optional float gametime = 6 [boxed_type = "GameTime_t"];
 	optional int32 bosses_remaining = 7;
 	optional .CMsgVector entity_position = 8;
 	optional int32 killfeed_gold = 9;
-	optional uint32 killer_ability_id = 10;
+	optional uint32 killer_ability_id = 10 [boxed_type = "EntitySubclassID_t"];
 }
 
 message CCitadelUserMsg_BossDamaged {
 	optional int32 objective_team = 1;
 	optional int32 objective_id = 2;
-	optional uint32 entity_damaged = 3 [default = 16777215];
+	optional uint32 entity_damaged = 3 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
 }
 
 message CCitadelUserMsg_MidBossSpawned {
@@ -628,13 +635,13 @@ message CCitadelUserMsg_MidBossSpawned {
 
 message CCitadelUserMsg_RejuvStatus {
 	optional int32 killing_team = 1;
-	optional uint32 player_pawn = 2 [default = 16777215];
+	optional uint32 player_pawn = 2 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
 	optional int32 user_team = 3;
 	optional int32 event_type = 4;
 }
 
 message CCitadelUserMsg_KillStreak {
-	optional uint32 player_pawn = 1 [default = 16777215];
+	optional uint32 player_pawn = 1 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
 	optional int32 num_kills = 2;
 	optional bool is_first_blood = 3;
 	optional bool streak_ended = 4;
@@ -645,22 +652,22 @@ message CCitadelUserMsg_TeamMsg {
 	optional int32 event_type = 1;
 	optional int32 team_number = 2;
 	optional int32 lane_color = 3;
-	optional uint32 player_controller = 4 [default = 16777215];
+	optional uint32 player_controller = 4 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
 	optional int32 killfeed_gold = 5;
 }
 
 message CCitadelUserMsg_PlayerRespawned {
-	optional uint32 player_pawn = 1 [default = 16777215];
+	optional uint32 player_pawn = 1 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
 	optional float facing_yaw = 2;
 	optional uint32 respawn_reason = 3;
 }
 
 message CCitadelUserMsg_CallCheaterVote {
-	optional int32 player_slot = 1 [default = -1];
+	optional int32 player_slot = 1 [default = -1, boxed_type = "CPlayerSlot", synthetic_default = "-1"];
 }
 
 message CCitadelUserMessage_MeleeHit {
-	optional int32 hit_entindex = 1 [default = -1];
+	optional int32 hit_entindex = 1 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
 	optional bool heavy = 2;
 }
 
@@ -670,19 +677,19 @@ message CCitadelUserMsg_FlexSlotUnlocked {
 }
 
 message CCitadelUserMessage_ItemPurchaseNotification {
-	optional int32 userid = 1 [default = -1];
+	optional int32 userid = 1 [default = -1, boxed_type = "CPlayerSlot", synthetic_default = "-1"];
 	optional uint32 ability_id = 2;
 	optional bool sell = 3;
 	optional bool quickbuy = 4;
 }
 
 message CCitadelUserMsg_SeasonalKill {
-	optional uint32 killer = 1 [default = 16777215];
-	optional uint32 victim = 2 [default = 16777215];
+	optional uint32 killer = 1 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
+	optional uint32 victim = 2 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
 }
 
 message CCitadelUserMsg_EntityPortalled {
-	optional uint32 entity_portalled = 1 [default = 16777215];
+	optional uint32 entity_portalled = 1 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
 	optional .CMsgTransform portal_transform = 2;
 }
 
@@ -706,28 +713,28 @@ message CCitadelUserMsg_HudGameAnnouncement {
 }
 
 message CCitadelUserMessage_ImportantAbilityUsed {
-	optional uint32 player = 1 [default = 16777215];
-	optional uint32 caster = 2 [default = 16777215];
+	optional uint32 player = 1 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
+	optional uint32 caster = 2 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
 	optional string ability_name = 3;
 }
 
 message CCitadelUserMsg_BannedHeroes {
-	repeated uint32 banned_hero_ids = 1;
+	repeated uint32 banned_hero_ids = 1 [boxed_type = "HeroID_t"];
 }
 
 message CCitadelUserMsg_CombatLogBulkData {
 	option (maximum_size_bytes) = 0;
 
 	repeated .CMsgCitadelCombatLogEntry combat_entries = 1;
-	optional float timestamp = 2;
+	optional float timestamp = 2 [boxed_type = "GameTime_t"];
 	optional float duration = 3;
-	optional int32 player_slot = 4 [default = -1];
-	optional float request_time = 5;
+	optional int32 player_slot = 4 [default = -1, boxed_type = "CPlayerSlot", synthetic_default = "-1"];
+	optional float request_time = 5 [boxed_type = "GameTime_t"];
 }
 
 message CCitadelUserMsg_PlayerTyping {
-	optional int32 player_slot = 1 [default = -1];
-	optional float game_time = 2;
+	optional int32 player_slot = 1 [default = -1, boxed_type = "CPlayerSlot", synthetic_default = "-1"];
+	optional float game_time = 2 [boxed_type = "GameTime_t"];
 	optional bool all_chat = 3;
 	optional bool typing = 4;
 }
@@ -735,8 +742,8 @@ message CCitadelUserMsg_PlayerTyping {
 message CCitadelUserMsg_ChangeHeroStatus {
 	optional bool success = 1;
 	optional bool is_hero_locked = 2;
-	repeated uint32 lock_hero_ids = 3;
-	repeated uint32 unlock_hero_ids = 4;
+	repeated uint32 lock_hero_ids = 3 [boxed_type = "HeroID_t"];
+	repeated uint32 unlock_hero_ids = 4 [boxed_type = "HeroID_t"];
 }
 
 message CCitadelUserMsg_MusicQueue {
@@ -748,12 +755,12 @@ message CCitadelUserMsg_LocalLobby {
 }
 
 message CCitadelUserMsg_SoulBagPickup {
-	optional uint32 pickup_player = 1 [default = 16777215];
-	optional uint32 victim_player = 2 [default = 16777215];
+	optional uint32 pickup_player = 1 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
+	optional uint32 victim_player = 2 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
 	optional int32 killfeed_gold = 3;
 }
 
 message CCitadelUserMsg_HeroReleaseVote {
-	optional int32 player_slot = 1 [default = -1];
-	optional uint32 voted_hero_id = 2;
+	optional int32 player_slot = 1 [default = -1, boxed_type = "CPlayerSlot", synthetic_default = "-1"];
+	optional uint32 voted_hero_id = 2 [boxed_type = "HeroID_t"];
 }

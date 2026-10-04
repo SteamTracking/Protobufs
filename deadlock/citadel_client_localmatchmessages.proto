@@ -1,6 +1,8 @@
 import "citadel_gcmessages_common.proto";
 import "citadel_gcmessages_server.proto";
 
+option additional_includes = "citadel_constants.h";
+
 message CMsgCitadelLocalLobbySetup {
 	optional fixed64 lobby_handshake_id = 1;
 	optional .CSOCitadelLobby lobby = 2;

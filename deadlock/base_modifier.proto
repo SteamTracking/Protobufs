@@ -1,5 +1,7 @@
 import "networkbasetypes.proto";
 
+option additional_includes = "entityhandle.h";
+
 enum MODIFIER_ENTRY_TYPE {
 	MODIFIER_ENTRY_TYPE_ACTIVE = 1;
 	MODIFIER_ENTRY_TYPE_REMOVED = 2;
@@ -7,18 +9,18 @@ enum MODIFIER_ENTRY_TYPE {
 
 message CModifierTableEntry {
 	optional .MODIFIER_ENTRY_TYPE entry_type = 1 [default = MODIFIER_ENTRY_TYPE_ACTIVE];
-	optional uint32 parent = 2 [default = 16777215];
+	optional uint32 parent = 2 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
 	optional uint32 serial_number = 3;
-	optional uint32 modifier_subclass = 4 [default = 0];
+	optional uint32 modifier_subclass = 4 [default = 0, boxed_type = "CUtlStringToken", synthetic_default = "0"];
 	optional int32 stack_count = 5;
 	optional int32 max_stack_count = 6;
 	optional float last_applied_time = 7;
 	optional float duration = 8 [default = -1];
-	optional uint32 caster = 9 [default = 16777215];
-	optional uint32 ability = 10 [default = 16777215];
+	optional uint32 caster = 9 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
+	optional uint32 ability = 10 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
 	optional int32 aura_provider_serial_number = 11;
-	optional uint32 aura_provider_ehandle = 12 [default = 16777215];
-	optional uint32 ability_subclass = 13 [default = 0];
+	optional uint32 aura_provider_ehandle = 12 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
+	optional uint32 ability_subclass = 13 [default = 0, boxed_type = "CUtlStringToken", synthetic_default = "0"];
 	optional bool in_aura_range = 14;
 	optional float creation_time = 15;
 	optional uint32 attributes = 16;

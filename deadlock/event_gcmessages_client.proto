@@ -2,6 +2,8 @@ import "gcsdk_gcmessages.proto";
 import "events.proto";
 import "event_gcmessages_common.proto";
 
+option additional_includes = "events/periodic_resource_schema.h";
+
 enum EGCEventClientMessages {
 	k_EMsgClientToGCGetEventPoints = 15000;
 	k_EMsgClientToGCGetEventPointsResponse = 15001;
@@ -50,7 +52,7 @@ message CMsgGCToClientEventPointsUpdated {
 
 message CMsgClientToGCGetPeriodicResource {
 	optional uint32 account_id = 1;
-	optional uint32 periodic_resource_id = 2;
+	optional uint32 periodic_resource_id = 2 [boxed_type = "PeriodicResourceID_t"];
 	optional uint32 timestamp = 3;
 }
 
@@ -174,7 +176,7 @@ message CMsgClientToGCClaimEventAction {
 	optional .EEventActionScoreMode score_mode = 4 [default = k_eEventActionScoreMode_Add];
 	optional bool suppress_rewards = 5;
 	optional bytes claim_data = 6;
-	optional uint64 consume_item_id = 7;
+	optional uint64 consume_item_id = 7 [boxed_type = "itemid_t"];
 }
 
 message CMsgEventActionGrantResult {

@@ -2,6 +2,8 @@ import "steammessages.proto";
 import "gcsdk_gcmessages.proto";
 import "citadel_gcmessages_common.proto";
 
+option additional_includes = "citadel/citadel_shared_econ.h";
+
 enum EGCCitadelClientMessages {
 	k_EMsgClientToGCStartMatchmaking = 9010;
 	k_EMsgClientToGCStartMatchmakingResponse = 9011;
@@ -284,18 +286,18 @@ enum ECommendType {
 message CSORankedProgress {
 	optional uint32 account_id = 1 [(key_field) = true];
 	optional .ECitadelRankedType rank_type = 2 [default = k_eCitadelRankedType_Invalid, (key_field) = true];
-	optional uint32 rank_interval = 3 [(key_field) = true];
-	optional uint32 progress = 4;
-	optional uint32 max_progress = 5;
-	optional uint32 rank = 6;
-	optional uint32 max_rank = 7;
-	optional uint32 leaderboard_rank = 8;
-	optional uint32 max_leaderboard_rank = 9;
+	optional uint32 rank_interval = 3 [boxed_type = "RankInterval_t", (key_field) = true];
+	optional uint32 progress = 4 [boxed_type = "RankProgress_t"];
+	optional uint32 max_progress = 5 [boxed_type = "RankProgress_t"];
+	optional uint32 rank = 6 [boxed_type = "PackedRank_t"];
+	optional uint32 max_rank = 7 [boxed_type = "PackedRank_t"];
+	optional uint32 leaderboard_rank = 8 [boxed_type = "PackedRank_t"];
+	optional uint32 max_leaderboard_rank = 9 [boxed_type = "PackedRank_t"];
 	optional uint32 demote_protect_games = 10;
 	optional uint32 calibrate_games = 11;
 	optional uint32 win_bit_mask = 12;
 	optional uint32 match_count = 13;
-	optional uint32 last_match_hero_id = 14;
+	optional uint32 last_match_hero_id = 14 [boxed_type = "HeroID_t"];
 	optional .EPlayerMatchOutcome last_match_outcome = 15 [default = k_EPlayerMatchOutcome_Invalid];
 	optional uint32 last_match_kills = 16;
 	optional uint32 last_match_deaths = 17;
@@ -304,7 +306,7 @@ message CSORankedProgress {
 
 message CSOAccountCabalMembership {
 	optional uint32 account_id = 1 [(key_field) = true];
-	optional uint64 cabal_id = 2 [(key_field) = true];
+	optional uint64 cabal_id = 2 [boxed_type = "CabalID_t", (key_field) = true];
 	optional uint32 state = 3;
 }
 
@@ -330,7 +332,7 @@ message CMsgCitadelCabal {
 		k_eMemberState_Invited = 2;
 	}
 
-	optional uint64 cabal_id = 1;
+	optional uint64 cabal_id = 1 [boxed_type = "CabalID_t"];
 	optional string cabal_name = 2;
 	optional uint32 created_time = 3;
 	optional uint32 created_by = 4;
@@ -360,7 +362,7 @@ message CSOGameAccountClient {
 	optional uint32 wins = 3;
 	optional uint32 losses = 4;
 	optional uint32 kills = 5;
-	optional uint32 most_played_hero_id = 6;
+	optional uint32 most_played_hero_id = 6 [boxed_type = "HeroID_t"];
 	optional uint64 permissions = 7;
 	optional uint64 new_player_progress = 8;
 	optional uint32 hero_unlock_credits = 9;
@@ -391,10 +393,10 @@ message CSOAccountHeroInfo {
 	}
 
 	optional uint32 account_id = 1 [(key_field) = true];
-	optional uint32 hero_id = 2;
+	optional uint32 hero_id = 2 [boxed_type = "HeroID_t"];
 	optional .CSOAccountHeroInfo.EHeroStatus status = 3 [default = k_eLocked];
 	optional uint32 wins = 4;
-	optional uint32 hero_xp = 6;
+	optional uint32 hero_xp = 6 [boxed_type = "HeroBadgeXP_t"];
 	optional uint32 brawl_wins = 7;
 }
 
@@ -413,7 +415,7 @@ message CSOAccountChallenge {
 	}
 
 	optional uint32 account_id = 1 [(key_field) = true];
-	optional uint64 challenge_id = 2;
+	optional uint64 challenge_id = 2 [boxed_type = "ChallengeID_t"];
 	optional .CSOAccountChallenge.EChallengeStatus status = 3 [default = k_eInvalid];
 	optional uint32 progress = 4;
 	optional uint32 max_progress = 5;
@@ -494,7 +496,7 @@ message CMsgGCToClientMatchmakingStopped {
 }
 
 message CMsgClientToGCLeaveLobby {
-	optional uint64 lobby_id = 1;
+	optional uint64 lobby_id = 1 [boxed_type = "CitadelLobbyID_t"];
 }
 
 message CMsgClientToGCLeaveLobbyResponse {
@@ -520,7 +522,7 @@ message CMsgDevMatchInfo {
 		optional uint32 account_id = 1;
 		optional .ECitadelLobbyTeam team = 2 [default = k_ECitadelLobbyTeam_Team0];
 		optional bool abandoned = 3;
-		optional uint32 hero_id = 4;
+		optional uint32 hero_id = 4 [boxed_type = "HeroID_t"];
 	}
 
 	message Team {
@@ -532,9 +534,9 @@ message CMsgDevMatchInfo {
 
 	optional uint32 start_time = 1;
 	optional .ECitadelLobbyTeam winning_team = 2 [default = k_ECitadelLobbyTeam_Team0];
-	optional uint64 match_id = 3;
+	optional uint64 match_id = 3 [boxed_type = "MatchID_t"];
 	repeated .CMsgDevMatchInfo.MatchPlayer players = 4;
-	optional fixed64 lobby_id = 5;
+	optional fixed64 lobby_id = 5 [boxed_type = "CitadelLobbyID_t"];
 	optional uint32 game_mode_version = 6;
 	optional uint32 net_worth_team_0 = 9;
 	optional uint32 net_worth_team_1 = 10;
@@ -554,7 +556,7 @@ message CMsgDevMatchInfo {
 
 message CMsgGCToClientDevPlaytestStatus {
 	message HeroWhitelist {
-		optional uint32 hero_id = 1;
+		optional uint32 hero_id = 1 [boxed_type = "HeroID_t"];
 		repeated uint32 account_ids = 2;
 	}
 
@@ -565,13 +567,13 @@ message CMsgGCToClientDevPlaytestStatus {
 	}
 
 	message LeaderboardTier {
-		optional uint32 leaderboard_rank = 1;
-		optional uint32 required_progress = 2;
+		optional uint32 leaderboard_rank = 1 [boxed_type = "PackedRank_t"];
+		optional uint32 required_progress = 2 [boxed_type = "RankProgress_t"];
 	}
 
 	message ActiveRankedMode {
 		optional .ECitadelRankedType rank_type = 1 [default = k_eCitadelRankedType_Invalid];
-		optional uint32 rank_interval = 2;
+		optional uint32 rank_interval = 2 [boxed_type = "RankInterval_t"];
 		repeated .CMsgGCToClientDevPlaytestStatus.LeaderboardTier leaderboard_tiers = 3;
 	}
 
@@ -595,7 +597,7 @@ message CMsgGCToClientSDRTicket {
 }
 
 message CMsgClientToGCReplacementSDRTicket {
-	optional fixed64 lobby_id = 1;
+	optional fixed64 lobby_id = 1 [boxed_type = "CitadelLobbyID_t"];
 }
 
 message CMsgClientToGCReplacementSDRTicketResponse {
@@ -604,7 +606,7 @@ message CMsgClientToGCReplacementSDRTicketResponse {
 }
 
 message CMsgClientToGCGetHideoutSDRTicket {
-	optional fixed64 lobby_id = 1;
+	optional fixed64 lobby_id = 1 [boxed_type = "CitadelHideoutLobbyID_t"];
 }
 
 message CMsgClientToGCGetHideoutSDRTicketResponse {
@@ -615,7 +617,7 @@ message CMsgClientToGCGetHideoutSDRTicketResponse {
 message CMsgClientToGCSetServerConVar {
 	optional string convar_name = 1;
 	optional string convar_value = 2;
-	optional fixed64 lobby_id = 3;
+	optional fixed64 lobby_id = 3 [boxed_type = "CitadelLobbyID_t"];
 }
 
 message CMsgClientToGCSetServerConVarResponse {
@@ -630,7 +632,7 @@ message CMsgClientToGCPostMatchSurveyResponse {
 	}
 
 	repeated .CMsgClientToGCPostMatchSurveyResponse.PostMatchSurvey post_match_survey = 1;
-	optional uint64 match_id = 2;
+	optional uint64 match_id = 2 [boxed_type = "MatchID_t"];
 }
 
 message CMsgPartyMMInfo {
@@ -674,11 +676,11 @@ message CMsgClientToGCPartyCreateResponse {
 	}
 
 	optional .CMsgClientToGCPartyCreateResponse.EResponse result = 1 [default = k_eInternalError];
-	optional fixed64 party_id = 2;
+	optional fixed64 party_id = 2 [boxed_type = "PartyID_t"];
 }
 
 message CMsgClientToGCPartyLeave {
-	optional fixed64 party_id = 1;
+	optional fixed64 party_id = 1 [boxed_type = "PartyID_t"];
 }
 
 message CMsgClientToGCPartyLeaveResponse {
@@ -693,7 +695,7 @@ message CMsgClientToGCPartyLeaveResponse {
 }
 
 message CMsgClientToGCPartyJoin {
-	optional fixed64 party_id = 1;
+	optional fixed64 party_id = 1 [boxed_type = "PartyID_t"];
 	optional bool is_rejoin = 2;
 	optional .CMsgPartyMMInfo party_mm_info = 3;
 }
@@ -749,7 +751,7 @@ message CMsgClientToGCPartyAction {
 		k_eSetCabalMMTier = 28;
 	}
 
-	optional fixed64 party_id = 1;
+	optional fixed64 party_id = 1 [boxed_type = "PartyID_t"];
 	optional uint32 target_account_id = 2;
 	optional .CMsgClientToGCPartyAction.EAction action_id = 3 [default = k_eKickUser];
 	optional uint64 uint_value = 4;
@@ -778,7 +780,7 @@ message CMsgClientToGCPartyActionResponse {
 }
 
 message CMsgClientToGCPartySetMode {
-	optional fixed64 party_id = 1;
+	optional fixed64 party_id = 1 [boxed_type = "PartyID_t"];
 	optional .ECitadelMatchMode match_mode = 2 [default = k_ECitadelMatchMode_Invalid];
 	optional .ECitadelGameMode game_mode = 3 [default = k_ECitadelGameMode_Invalid];
 	optional .ECitadelBotDifficulty bot_difficulty = 4 [default = k_ECitadelBotDifficulty_None];
@@ -827,7 +829,7 @@ message CMsgClientToGCPartySetModeResponse {
 }
 
 message CMsgClientToGCPartyStartMatch {
-	optional fixed64 party_id = 1;
+	optional fixed64 party_id = 1 [boxed_type = "PartyID_t"];
 }
 
 message CMsgClientToGCPartyStartMatchResponse {
@@ -870,7 +872,7 @@ message CMsgClientToGCPartyStartMatchResponse {
 }
 
 message CMsgClientToGCPartyInviteUser {
-	optional fixed64 party_id = 1;
+	optional fixed64 party_id = 1 [boxed_type = "PartyID_t"];
 	optional uint32 invite_account_id = 2;
 }
 
@@ -910,7 +912,7 @@ message CMsgGCToClientPartyEvent {
 		k_eMatchMakingStopped_Cancelled = 13;
 	}
 
-	optional fixed64 party_id = 1;
+	optional fixed64 party_id = 1 [boxed_type = "PartyID_t"];
 	optional .CMsgGCToClientPartyEvent.EPartyEvent event = 2 [default = k_ePlayerKicked];
 	optional uint32 initiator_account_id = 3;
 	optional uint32 target_account_id = 4;
@@ -920,21 +922,21 @@ message CMsgGCToClientPartyEvent {
 }
 
 message CMsgGCToClientCanRejoinParty {
-	optional fixed64 party_id = 1;
+	optional fixed64 party_id = 1 [boxed_type = "PartyID_t"];
 }
 
 message CMsgClientToGCPartyJoinViaCode {
-	optional uint64 join_code = 1;
+	optional uint64 join_code = 1 [boxed_type = "PartyJoinCode_t"];
 	optional .CMsgPartyMMInfo party_mm_info = 2;
 }
 
 message CMsgClientToGCPartyJoinViaCodeResponse {
 	optional .CMsgClientToGCPartyJoinResponse.EResponse result = 1 [default = k_eInternalError];
-	optional fixed64 party_id = 2;
+	optional fixed64 party_id = 2 [boxed_type = "PartyID_t"];
 }
 
 message CMsgClientToGCPartySetReadyState {
-	optional fixed64 party_id = 1;
+	optional fixed64 party_id = 1 [boxed_type = "PartyID_t"];
 	optional bool ready_state = 2;
 	optional .CMsgHeroSelectionMatchInfo hero_roster = 3;
 }
@@ -971,14 +973,14 @@ message CMsgClientToGCGetMatchHistory {
 	optional .ECitadelGameMode game_mode = 4 [default = k_ECitadelGameMode_Invalid];
 	optional .ECitadelMatchMode match_mode = 5 [default = k_ECitadelMatchMode_Invalid];
 	optional .ECitadelRankedType ranked_type = 6 [default = k_eCitadelRankedType_Invalid];
-	optional uint32 rank_interval = 7;
-	optional uint64 cabal_id = 8;
+	optional uint32 rank_interval = 7 [boxed_type = "RankInterval_t"];
+	optional uint64 cabal_id = 8 [boxed_type = "CabalID_t"];
 }
 
 message CMsgClientToGCGetMatchHistoryResponse {
 	message Match {
-		optional uint64 match_id = 1;
-		optional uint32 hero_id = 2;
+		optional uint64 match_id = 1 [boxed_type = "MatchID_t"];
+		optional uint32 hero_id = 2 [boxed_type = "HeroID_t"];
 		optional uint32 match_duration_s = 3;
 		optional uint32 start_time = 4;
 		optional uint32 match_result = 5;
@@ -1001,7 +1003,7 @@ message CMsgClientToGCGetMatchHistoryResponse {
 		optional uint32 brawl_score_team1 = 24;
 		optional uint32 brawl_avg_round_time_s = 25;
 		optional .EPlayerMatchOutcome player_match_outcome = 26 [default = k_EPlayerMatchOutcome_Invalid];
-		optional uint32 ranked_display_badge = 27;
+		optional uint32 ranked_display_badge = 27 [boxed_type = "PackedRank_t"];
 		optional int32 ranked_delta = 28;
 		optional uint32 ranked_calibration_match = 29;
 		optional bool ranked_used_demotion_protection = 30;
@@ -1050,15 +1052,15 @@ message CMsgClientToGCSpectateUserResponse {
 	optional bytes sdr_key = 4;
 	optional uint32 udp_connect_ip = 5;
 	optional uint32 udp_connect_port = 6;
-	optional fixed64 lobby_id = 7;
+	optional fixed64 lobby_id = 7 [boxed_type = "CitadelLobbyID_t"];
 	optional string client_broadcast_url = 8;
 }
 
 message CMsgClientToGCSpectateLobby {
-	optional uint64 lobby_id = 1;
+	optional uint64 lobby_id = 1 [boxed_type = "CitadelLobbyID_t"];
 	optional uint32 client_version = 3;
 	optional .EGCPlatform client_platform = 4 [default = k_eGCPlatform_None];
-	optional uint64 match_id = 5;
+	optional uint64 match_id = 5 [boxed_type = "MatchID_t"];
 }
 
 message CMsgClientToGCSpectateLobbyResponse {
@@ -1079,7 +1081,7 @@ message CMsgCitadelProfileCard {
 		}
 
 		message Hero {
-			optional uint32 hero_id = 1;
+			optional uint32 hero_id = 1 [boxed_type = "HeroID_t"];
 			optional uint32 hero_wins = 2;
 			optional uint32 hero_kills = 3;
 		}
@@ -1098,7 +1100,7 @@ message CMsgCitadelProfileCard {
 
 	optional uint32 account_id = 1;
 	repeated .CMsgCitadelProfileCard.Slot slots = 2;
-	optional uint32 ranked_badge_level = 3;
+	optional uint32 ranked_badge_level = 3 [boxed_type = "PackedRank_t"];
 }
 
 message CMsgClientToGCUpdateRoster {
@@ -1146,7 +1148,7 @@ message CMsgClientToGCGetAccountStatsResponse {
 }
 
 message CMsgClientToGCGetMatchMetaData {
-	optional uint64 match_id = 1;
+	optional uint64 match_id = 1 [boxed_type = "MatchID_t"];
 	optional uint32 metadata_salt = 3;
 	optional uint32 target_account_id = 4;
 }
@@ -1195,7 +1197,7 @@ message CMsgClientToGCDevAction {
 	optional int32 int_value = 4;
 	optional bool bool_value = 5;
 	optional string str_value = 6;
-	optional uint64 match_id = 7;
+	optional uint64 match_id = 7 [boxed_type = "MatchID_t"];
 }
 
 message CMsgClientToGCDevActionResponse {
@@ -1255,7 +1257,7 @@ message CMsgClientToGCGetHeroChoice {
 
 message CMsgClientToGCGetHeroChoiceResponse {
 	message Hero {
-		optional uint32 hero_id = 1;
+		optional uint32 hero_id = 1 [boxed_type = "HeroID_t"];
 	}
 
 	enum EResult {
@@ -1275,7 +1277,7 @@ message CMsgClientToGCGetHeroChoiceResponse {
 }
 
 message CMsgClientToGCUnlockHero {
-	repeated uint32 hero_ids = 1;
+	repeated uint32 hero_ids = 1 [boxed_type = "HeroID_t"];
 	optional uint32 hero_choice_id = 2;
 }
 
@@ -1294,19 +1296,19 @@ message CMsgClientToGCUnlockHeroResponse {
 
 message CMsgAccountBook {
 	message Unlock {
-		optional uint32 unlock_id = 1;
+		optional uint32 unlock_id = 1 [boxed_type = "BookUnlockID_t"];
 		optional uint32 flags = 2;
 	}
 
-	optional uint32 book_id = 1;
+	optional uint32 book_id = 1 [boxed_type = "BookID_t"];
 	optional uint32 book_xp = 2;
 	optional uint32 spent_xp = 3;
 	repeated .CMsgAccountBook.Unlock unlocks = 4;
 }
 
 message CMsgClientToGCBookUnlock {
-	optional uint32 book_id = 1;
-	optional uint32 unlock_id = 2;
+	optional uint32 book_id = 1 [boxed_type = "BookID_t"];
+	optional uint32 unlock_id = 2 [boxed_type = "BookUnlockID_t"];
 	optional uint32 expected_cost = 3;
 	optional uint32 client_version = 4;
 }
@@ -1327,7 +1329,7 @@ message CMsgClientToGCBookUnlockResponse {
 }
 
 message CMsgClientToGCGetBook {
-	optional uint32 book_id = 1;
+	optional uint32 book_id = 1 [boxed_type = "BookID_t"];
 }
 
 message CMsgClientToGCGetBookResponse {
@@ -1377,17 +1379,17 @@ message CMsgClientToGCUpdateHeroBuildResponse {
 	}
 
 	optional .CMsgClientToGCUpdateHeroBuildResponse.EResponse response = 1 [default = k_eInternalError];
-	optional uint32 hero_build_id = 2;
+	optional uint32 hero_build_id = 2 [boxed_type = "HeroBuildID_t"];
 	optional uint32 version = 3;
 }
 
 message CMsgClientToGCFindHeroBuilds {
 	optional uint32 author_account_id = 1;
-	optional uint32 hero_id = 2;
+	optional uint32 hero_id = 2 [boxed_type = "HeroID_t"];
 	repeated int32 language = 3;
 	optional string search_text = 4;
-	optional uint32 hero_build_id = 5;
-	repeated uint32 tags = 6;
+	optional uint32 hero_build_id = 5 [boxed_type = "HeroBuildID_t"];
+	repeated uint32 tags = 6 [boxed_type = "HeroBuildTagID_t"];
 }
 
 message CMsgClientToGCFindHeroBuildsResponse {
@@ -1413,7 +1415,7 @@ message CMsgClientToGCFindHeroBuildsResponse {
 }
 
 message CMsgClientToGCUpdateHeroBuildPreference {
-	optional uint32 hero_build_id = 1;
+	optional uint32 hero_build_id = 1 [boxed_type = "HeroBuildID_t"];
 	optional .CMsgHeroBuildPreference preference = 2;
 }
 
@@ -1438,7 +1440,7 @@ message CMsgClientToGCReportPlayerFromMatch {
 		k_eReport_Smurfing = 6;
 	}
 
-	optional uint64 match_id = 1;
+	optional uint64 match_id = 1 [boxed_type = "MatchID_t"];
 	optional uint32 target_account_id = 2;
 	optional .CMsgClientToGCReportPlayerFromMatch.EReportType report_type = 3 [default = k_eReport_None];
 	optional string report_text = 4;
@@ -1462,7 +1464,7 @@ message CMsgClientToGCReportPlayerFromMatchResponse {
 }
 
 message CMsgClientToGCGetAccountMatchReports {
-	optional uint64 match_id = 1;
+	optional uint64 match_id = 1 [boxed_type = "MatchID_t"];
 }
 
 message CMsgClientToGCGetAccountMatchReportsResponse {
@@ -1500,14 +1502,17 @@ message CMsgClientToGCRequestReporterUpdatesResponse {
 
 	optional .CMsgClientToGCRequestReporterUpdatesResponse.EResponse response = 1 [default = k_eInternalError];
 	optional .CMsgClientToGCReportPlayerFromMatch.EReportType report_type = 5 [default = k_eReport_None];
+
+	reserved 2, 3, 4;
 }
 
 message CMsgClientToGCAcknowledgeReporterUpdates {
+	reserved 1;
 }
 
 message CMsgClientToGCDeleteHeroBuild {
 	optional uint32 author_account_id = 1;
-	optional uint32 hero_build_id = 2;
+	optional uint32 hero_build_id = 2 [boxed_type = "HeroBuildID_t"];
 }
 
 message CMsgClientToGCDeleteHeroBuildResponse {
@@ -1591,12 +1596,12 @@ message CMsgClientToGCGetFriendGameStatusResponse {
 }
 
 message CMsgClientToGCUpdateSpectatorStatus {
-	optional fixed64 spectating_lobby_id = 1;
+	optional fixed64 spectating_lobby_id = 1 [boxed_type = "CitadelLobbyID_t"];
 	optional bool stopped_spectating = 2;
 }
 
 message CMsgClientToGCCommendPlayerFromMatch {
-	optional uint64 match_id = 1;
+	optional uint64 match_id = 1 [boxed_type = "MatchID_t"];
 	optional uint32 target_account_id = 2;
 	optional .ECommendType commend_type = 3 [default = k_eInvalid];
 	optional uint32 fake_commend_hero_id = 4;
@@ -1620,9 +1625,9 @@ message CMsgClientToGCCommendPlayerFromMatchResponse {
 message CMsgGCToClientCommendNotification {
 	optional uint32 commender_account_id = 1;
 	optional string commender_name = 2;
-	optional uint32 commender_hero_id = 4;
+	optional uint32 commender_hero_id = 4 [boxed_type = "HeroID_t"];
 	optional .ECommendType commend_type = 5 [default = k_eInvalid];
-	optional uint64 match_id = 6;
+	optional uint64 match_id = 6 [boxed_type = "MatchID_t"];
 	optional bool enemy_commend = 7;
 }
 
@@ -1632,8 +1637,8 @@ message CMsgClientToGCRequestCheatReports {
 message CMsgClientToGCRequestCheatReportsResponse {
 	message RecentCheatReport {
 		optional uint32 account_id = 1;
-		optional uint64 match_id = 2;
-		optional uint32 hero_id = 3;
+		optional uint64 match_id = 2 [boxed_type = "MatchID_t"];
+		optional uint32 hero_id = 3 [boxed_type = "HeroID_t"];
 	}
 
 	enum EResult {
@@ -1652,7 +1657,7 @@ message CMsgClientToGCGetHeroMMRRankings {
 
 message CMsgClientToGCGetHeroMMRRankingsResponse {
 	message Hero {
-		optional uint32 hero_id = 1;
+		optional uint32 hero_id = 1 [boxed_type = "HeroID_t"];
 		optional int32 relative_mmr = 2;
 	}
 
@@ -1669,15 +1674,15 @@ message CMsgClientToGCGetHeroMMRRankingsResponse {
 
 message CMsgClientToGCGetLeaderboard {
 	optional .ECitadelLeaderboardRegion leaderboard_region = 1 [default = k_ECitadelLeaderboardRegion_None];
-	optional uint32 hero_id = 2;
-	optional uint32 leaderboard_id = 3;
+	optional uint32 hero_id = 2 [boxed_type = "HeroID_t"];
+	optional uint32 leaderboard_id = 3 [boxed_type = "LeaderboardID_t"];
 }
 
 message CMsgClientToGCGetLeaderboardResponse {
 	message LeaderboardEntry {
 		optional string account_name = 1;
 		optional uint32 rank = 2;
-		repeated uint32 top_hero_ids = 3;
+		repeated uint32 top_hero_ids = 3 [boxed_type = "HeroID_t"];
 	}
 
 	enum EResult {
@@ -1694,13 +1699,13 @@ message CMsgClientToGCGetLeaderboardResponse {
 
 message CMsgClientToGCGetAccountLeaderboards {
 	optional uint32 account_id = 1;
-	optional uint32 leaderboard_id = 2;
+	optional uint32 leaderboard_id = 2 [boxed_type = "LeaderboardID_t"];
 }
 
 message CMsgClientToGCGetAccountLeaderboardsResponse {
 	message LeaderboardEntry {
 		optional .ECitadelLeaderboardRegion region = 1 [default = k_ECitadelLeaderboardRegion_None];
-		optional uint32 hero_id = 2;
+		optional uint32 hero_id = 2 [boxed_type = "HeroID_t"];
 		optional uint32 rank = 3;
 	}
 
@@ -1731,7 +1736,7 @@ message CMsgClientToGCGenerateChallengeSetResponse {
 }
 
 message CMsgClientToGCChallengeActivate {
-	optional uint64 challenge_id = 1;
+	optional uint64 challenge_id = 1 [boxed_type = "ChallengeID_t"];
 }
 
 message CMsgClientToGCChallengeActivateResponse {
@@ -1745,7 +1750,7 @@ message CMsgClientToGCChallengeActivateResponse {
 }
 
 message CMsgClientToGCChallengeClaim {
-	optional uint64 challenge_id = 1;
+	optional uint64 challenge_id = 1 [boxed_type = "ChallengeID_t"];
 }
 
 message CMsgClientToGCChallengeClaimResponse {
@@ -1760,7 +1765,7 @@ message CMsgClientToGCChallengeClaimResponse {
 }
 
 message CMsgClientToGCChallengeCancel {
-	optional uint64 challenge_id = 1;
+	optional uint64 challenge_id = 1 [boxed_type = "ChallengeID_t"];
 }
 
 message CMsgClientToGCChallengeCancelResponse {
@@ -1854,12 +1859,7 @@ message CMsgClientToGCRequestHeroReleaseVoteTally {
 }
 
 message CMsgGCToClientUpdateHeroReleaseVoteTally {
-	message VoteRoundToTallyEntry {
-		optional uint32 key = 1;
-		optional .CMsgHeroReleaseVoteTally value = 2;
-	}
-
-	repeated .CMsgGCToClientUpdateHeroReleaseVoteTally.VoteRoundToTallyEntry vote_round_to_tally = 1;
+	map<uint32, .CMsgHeroReleaseVoteTally> vote_round_to_tally = 1;
 }
 
 message CMsgClientToGCSubmitHeroReleaseVote {
@@ -1868,7 +1868,7 @@ message CMsgClientToGCSubmitHeroReleaseVote {
 }
 
 message CMsgClientToGCPartySendChatMsg {
-	optional fixed64 party_id = 1;
+	optional fixed64 party_id = 1 [boxed_type = "PartyID_t"];
 	optional string chat_msg = 2;
 }
 
@@ -1892,22 +1892,22 @@ message CMsgGCToClientPartyChatMsg {
 		optional uint32 time_stamp = 3;
 	}
 
-	optional fixed64 party_id = 1;
+	optional fixed64 party_id = 1 [boxed_type = "PartyID_t"];
 	repeated .CMsgGCToClientPartyChatMsg.ChatLine chat_lines = 2;
 }
 
 message CMsgGCToClientPartyPlayerTyping {
-	optional fixed64 party_id = 1;
+	optional fixed64 party_id = 1 [boxed_type = "PartyID_t"];
 	optional uint32 account_id = 2;
 }
 
 message CMsgPostGameProgressData {
 	message PlayerAccolade {
-		optional uint32 accolade_id = 1;
+		optional uint32 accolade_id = 1 [boxed_type = "AccoladeID_t"];
 		optional string accolade_name = 2;
 		optional string accolade_desc = 3;
 		optional uint32 accolade_stars_achieved = 4;
-		optional int32 accolade_stat_value = 5;
+		optional int32 accolade_stat_value = 5 [boxed_type = "TrackedStatValue_t"];
 	}
 
 	message PlayerAward {
@@ -1923,9 +1923,9 @@ message CMsgPostGameProgressData {
 	}
 
 	message PlayerData {
-		optional uint32 player_slot = 1;
+		optional uint32 player_slot = 1 [boxed_type = "CitadelLobbyPlayerSlot_t"];
 		optional uint32 account_id = 2;
-		optional uint32 hero_id = 3;
+		optional uint32 hero_id = 3 [boxed_type = "HeroID_t"];
 		optional .ECitadelLobbyTeam team = 4 [default = k_ECitadelLobbyTeam_Team0];
 		optional uint32 mvp_rank = 5;
 		repeated .CMsgPostGameProgressData.PlayerAccolade accolades = 6;
@@ -1936,12 +1936,12 @@ message CMsgPostGameProgressData {
 		optional .EPlayerMatchOutcome player_match_outcome = 11 [default = k_EPlayerMatchOutcome_Invalid];
 	}
 
-	optional uint64 match_id = 1;
+	optional uint64 match_id = 1 [boxed_type = "MatchID_t"];
 	optional .ECitadelLobbyTeam winning_team = 2 [default = k_ECitadelLobbyTeam_Team0];
 	optional .ECitadelMatchMode match_mode = 3 [default = k_ECitadelMatchMode_Invalid];
 	optional .ECitadelGameMode game_mode = 4 [default = k_ECitadelGameMode_Invalid];
 	optional .ECitadelRankedType ranked_type = 5 [default = k_eCitadelRankedType_Invalid];
-	optional uint32 rank_interval = 6;
+	optional uint32 rank_interval = 6 [boxed_type = "RankInterval_t"];
 	optional .CMsgPostGameProgressData.PlayerData local_player = 7;
 	repeated .CMsgPostGameProgressData.PlayerData mvp_players = 8;
 	optional .CMsgMatchHeroReleaseVotes hero_release_votes = 9;
@@ -1963,8 +1963,8 @@ message CMsgClientToGCSetAccountPrivacySettingResponse {
 
 message CMsgClientToGCVariantItemChangeSlotStyles {
 	message SlotStyleAction {
-		optional uint32 slot_id = 1;
-		optional uint32 style_id = 2;
+		optional uint32 slot_id = 1 [boxed_type = "VariantItemSlotID_t"];
+		optional uint32 style_id = 2 [boxed_type = "VariantItemSlotStyleID_t"];
 		optional .CMsgClientToGCVariantItemChangeSlotStyles.EStyleAction style_action = 3 [default = k_eUnlockStyle];
 	}
 
@@ -1975,7 +1975,7 @@ message CMsgClientToGCVariantItemChangeSlotStyles {
 		k_eDevLockStyle = 3;
 	}
 
-	optional uint64 item_id = 1;
+	optional uint64 item_id = 1 [boxed_type = "itemid_t"];
 	repeated .CMsgClientToGCVariantItemChangeSlotStyles.SlotStyleAction slot_style_actions = 2;
 }
 
@@ -1999,7 +1999,7 @@ message CMsgClientToGCVariantItemChangeSlotStylesResponse {
 
 message CMsgClientToGCStartRankedInterval {
 	optional .ECitadelRankedType rank_type = 1 [default = k_eCitadelRankedType_Invalid];
-	optional uint32 interval = 2;
+	optional uint32 interval = 2 [boxed_type = "RankInterval_t"];
 }
 
 message CMsgClientToGCStartRankedIntervalResponse {
@@ -2021,12 +2021,12 @@ message CMsgClientToGCGetInternalLeaderboards {
 
 message CMsgClientToGCGetInternalLeaderboardsResponse {
 	message LeaderboardMatch {
-		optional uint64 match_id = 1;
+		optional uint64 match_id = 1 [boxed_type = "MatchID_t"];
 		optional uint32 round = 2;
 		optional uint32 duration = 3;
 		optional uint32 timestamp = 4;
 		repeated uint32 account_ids = 5;
-		repeated uint32 hero_ids = 6;
+		repeated uint32 hero_ids = 6 [boxed_type = "HeroID_t"];
 	}
 
 	enum EResponse {
@@ -2040,12 +2040,12 @@ message CMsgClientToGCGetInternalLeaderboardsResponse {
 }
 
 message CMsgClientToGCGetLeaderboardStatus {
-	optional uint32 leaderboard_id = 1;
+	optional uint32 leaderboard_id = 1 [boxed_type = "LeaderboardID_t"];
 }
 
 message CMsgClientToGCGetLeaderboardStatusResponse {
 	message Hero {
-		optional uint32 hero_id = 1;
+		optional uint32 hero_id = 1 [boxed_type = "HeroID_t"];
 		optional uint32 recent_matches = 2;
 		optional .ECitadelLeaderboardRegion region = 3 [default = k_ECitadelLeaderboardRegion_None];
 		optional uint32 lifetime_wins = 4;
@@ -2087,11 +2087,11 @@ message CMsgClientToGCCabalCreateResponse {
 	}
 
 	optional .CMsgClientToGCCabalCreateResponse.EResult result = 1 [default = k_eInternalError];
-	optional uint64 cabal_id = 2;
+	optional uint64 cabal_id = 2 [boxed_type = "CabalID_t"];
 }
 
 message CMsgClientToGCCabalInviteAccount {
-	optional uint64 cabal_id = 1;
+	optional uint64 cabal_id = 1 [boxed_type = "CabalID_t"];
 	optional uint32 account_id = 2;
 	optional bool cancel_invite = 3;
 }
@@ -2116,7 +2116,7 @@ message CMsgClientToGCCabalInviteAccountResponse {
 }
 
 message CMsgClientToGCCabalAnswerInvite {
-	optional uint64 cabal_id = 1;
+	optional uint64 cabal_id = 1 [boxed_type = "CabalID_t"];
 	optional bool accepted = 2;
 }
 
@@ -2135,7 +2135,7 @@ message CMsgClientToGCCabalAnswerInviteResponse {
 }
 
 message CMsgClientToGCCabalLeave {
-	optional uint64 cabal_id = 1;
+	optional uint64 cabal_id = 1 [boxed_type = "CabalID_t"];
 	optional bool acknowledged_last_member = 2;
 }
 
@@ -2152,7 +2152,7 @@ message CMsgClientToGCCabalLeaveResponse {
 }
 
 message CMsgClientToGCCabalGetDetails {
-	optional uint64 cabal_id = 1;
+	optional uint64 cabal_id = 1 [boxed_type = "CabalID_t"];
 }
 
 message CMsgClientToGCCabalGetDetailsResponse {
@@ -2173,7 +2173,7 @@ message CMsgGCToClientCabalUpdated {
 }
 
 message CMsgClientToGCCabalKickPlayer {
-	optional uint64 cabal_id = 1;
+	optional uint64 cabal_id = 1 [boxed_type = "CabalID_t"];
 	optional uint32 kick_account_id = 2;
 }
 
@@ -2189,7 +2189,7 @@ message CMsgClientToGCCabalKickPlayerResponse {
 }
 
 message CMsgClientToGCCabalGetMatchHistory {
-	optional uint64 cabal_id = 1;
+	optional uint64 cabal_id = 1 [boxed_type = "CabalID_t"];
 	optional .ECitadelCabalMMTier cabal_mm_tier = 2 [default = k_eCabalMMTier_Invalid];
 	optional uint64 cursor = 3;
 }

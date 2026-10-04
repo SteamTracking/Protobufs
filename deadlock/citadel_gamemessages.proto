@@ -34,7 +34,7 @@ message CMsgGameServerToClientGoodbye {
 
 message CMsgGameServerToClientConnectionStatus {
 	message Player {
-		optional int32 player_slot = 1 [default = -1];
+		optional int32 player_slot = 1 [default = -1, boxed_type = "CPlayerSlot", synthetic_default = "-1"];
 		optional .CMsgGameServerToClientConnectionStatus.EStatus status = 2 [default = k_EConnected];
 		optional bool inactivity_ticking = 3;
 		optional uint32 inactivity_ms_remaining = 4;
@@ -51,7 +51,7 @@ message CMsgGameServerToClientConnectionStatus {
 
 message CClientReconnectInfo {
 	optional fixed64 server_steam_id = 1;
-	optional uint64 lobby_id = 2;
+	optional uint64 lobby_id = 2 [boxed_type = "CitadelLobbyID_t"];
 	optional uint32 time_updated = 3;
 	optional uint32 udp_connect_ip = 4;
 	optional uint32 udp_connect_port = 5;

@@ -1,6 +1,10 @@
 import "google/protobuf/descriptor.proto";
 import "networkbasetypes.proto";
 
+option additional_includes = "basetypes.h";
+option additional_includes = "resourcefile/resourcetype.h";
+option additional_includes = "citadel_constants.h";
+
 enum ECitadelGameEvents {
 	GE_FireBullets = 450;
 	GE_PlayerAnimEvent = 451;
@@ -31,15 +35,15 @@ enum PARTICLE_SYSTEM_MANAGER_MESSAGE {
 
 message CMsgFireBullets {
 	message TracerAssignment {
-		optional uint64 tracer_resource_id = 1;
+		optional uint64 tracer_resource_id = 1 [boxed_type = "ResourceId_t"];
 		optional uint32 bullet_indicies = 2;
 	}
 
 	optional .CMsgVector origin = 1;
 	optional .CMsgQAngle angles = 2;
 	optional uint32 seed = 4;
-	optional int32 shooter_entity = 5 [default = -1];
-	optional int32 ability = 7 [default = -1];
+	optional int32 shooter_entity = 5 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
+	optional int32 ability = 7 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
 	optional float penetration_percent = 8;
 	optional float spread = 9;
 	optional bool fired_from_gun = 10 [default = true];
@@ -49,7 +53,7 @@ message CMsgFireBullets {
 	optional .CMsgQAngle angles_original = 14;
 	optional uint32 weapon_subclass_id = 15;
 	optional uint32 shot_number = 16;
-	optional int32 ignore_entity = 17 [default = -1];
+	optional int32 ignore_entity = 17 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
 	optional float max_range = 18;
 	optional uint32 shot_id = 19;
 	optional bool predict_hits_against_units = 20 [default = true];
@@ -61,7 +65,7 @@ message CMsgFireBullets {
 	optional bool friendly_fire = 26;
 	optional uint32 friendly_fire_damage_type = 27;
 	optional uint32 bullet_state = 28;
-	optional uint32 weapon_info_id = 29;
+	optional uint32 weapon_info_id = 29 [boxed_type = "WeaponInfoID_t"];
 	optional .CMsgVector target_pos = 30;
 }
 
@@ -71,17 +75,17 @@ message CMsgBulletImpact {
 	optional .CMsgVector surface_normal = 3;
 	optional uint32 damage = 4;
 	optional uint32 surface_type = 5;
-	optional uint32 ability_ehandle = 7 [default = 16777215];
-	optional uint32 impacted_ehandle = 8 [default = 16777215];
+	optional uint32 ability_ehandle = 7 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
+	optional uint32 impacted_ehandle = 8 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
 	optional uint32 impacted_bone_index = 9;
 	optional uint32 weapon_subclass_id = 10;
-	optional uint32 shooter_ehandle = 11 [default = 16777215];
+	optional uint32 shooter_ehandle = 11 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
 	optional float bullet_radius_override = 12;
-	optional uint32 weapon_info_id = 13;
+	optional uint32 weapon_info_id = 13 [boxed_type = "WeaponInfoID_t"];
 }
 
 message CMsgPlayerAnimEvent {
-	optional fixed32 player = 1 [default = 16777215];
+	optional fixed32 player = 1 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
 	optional uint32 event = 2;
 	optional int32 data = 3;
 }
@@ -90,7 +94,7 @@ message CMsgParticleSystemManager {
 	message CreateParticle {
 		optional fixed64 particle_name_index = 1;
 		optional int32 attach_type = 2;
-		optional uint32 entity_handle = 3 [default = 16777215];
+		optional uint32 entity_handle = 3 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
 		optional .CMsgVector position = 4;
 		optional .CMsgQAngle angles = 5;
 	}
@@ -101,7 +105,7 @@ message CMsgParticleSystemManager {
 
 	message DestroyParticleInvolving {
 		optional bool destroy_immediately = 1;
-		optional uint32 entity_handle = 3 [default = 16777215];
+		optional uint32 entity_handle = 3 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
 	}
 
 	message ReleaseParticleIndex {
@@ -131,7 +135,7 @@ message CMsgParticleSystemManager {
 
 	message UpdateParticleEnt {
 		optional int32 control_point = 1;
-		optional uint32 entity_handle = 2 [default = 16777215];
+		optional uint32 entity_handle = 2 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
 		optional int32 attach_type = 3;
 		optional int32 attachment = 4;
 		optional .CMsgVector fallback_position = 5;
@@ -184,8 +188,8 @@ message CMsgScreenTextPretty {
 message CMsgServerRequestedTracer {
 	optional .CMsgVector origin = 1;
 	optional .CMsgVector end = 2;
-	optional int32 weaponid = 3 [default = -1];
-	optional uint32 entity_handle = 4 [default = 16777215];
+	optional int32 weaponid = 3 [default = -1, boxed_type = "CitadelWeaponID_t", synthetic_default = "-1"];
+	optional uint32 entity_handle = 4 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
 	optional float dps = 5;
 }
 
@@ -205,7 +209,7 @@ message CMsgPlaceSatVolumeEvent {
 	optional float falloff_distance = 4;
 	optional float theta_dot = 5;
 	optional float phi_dot = 6;
-	optional uint32 entity_handle = 7 [default = 16777215];
+	optional uint32 entity_handle = 7 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
 	optional uint32 attachment_handle = 8;
 	optional uint32 type = 9;
 	optional int32 volume_id = 10;
@@ -219,7 +223,7 @@ message CMsgDisableSatVolumesEvent {
 }
 
 message CMsgRemoveBullet {
-	optional int32 shooter_entindex = 1 [default = -1];
+	optional int32 shooter_entindex = 1 [default = -1, boxed_type = "CEntityIndex", synthetic_default = "-1"];
 	optional uint32 shot_id = 2;
 	optional uint32 bullet_index = 3;
 }
