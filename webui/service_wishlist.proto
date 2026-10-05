@@ -88,7 +88,7 @@ message CWishlist_GetWishlistSortedFiltered_Request {
 	optional fixed64 steamid = 1;
 	optional .StoreBrowseContext context = 2;
 	optional .StoreBrowseItemDataRequest data_request = 3;
-	optional int32 sort_order = 4 [(.description) = "enum"];
+	optional int32 sort_order = 4 [default = 0, (.description) = "enum"];
 	optional .CWishlistFilters filters = 5;
 	optional int32 start_index = 6 [default = 0];
 	optional int32 page_size = 7 [default = 100];

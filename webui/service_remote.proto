@@ -93,6 +93,13 @@ message CRemotePlay_SessionStarted_Response {
 	optional fixed64 record_id = 1;
 }
 
+message CRemotePlay_SessionStopped_Notification {
+	optional fixed64 record_id = 1;
+	optional bool used_x264 = 2;
+	optional bool used_h264 = 3;
+	optional bool used_hevc = 4;
+}
+
 service RemoteClient {
 	// ePrivilege=1
 	rpc AllocateRelayServer (.CRemoteClient_AllocateRelayServer_Request) returns (.CRemoteClient_AllocateRelayServer_Response);
@@ -115,12 +122,12 @@ service RemoteClient {
 	// ePrivilege=1
 	rpc SendRemotePlaySessionStarted (.CRemotePlay_SessionStarted_Request) returns (.CRemotePlay_SessionStarted_Response);
 	// ePrivilege=1
-	rpc SendRemotePlaySessionStopped (.NotImplemented) returns (.NoResponse);
+	rpc SendRemotePlaySessionStopped (.CRemotePlay_SessionStopped_Notification) returns (.NoResponse);
 	// ePrivilege=1
-	rpc SendRemotePlayTogetherPacket (.NotImplemented) returns (.NoResponse);
+	rpc SendRemotePlayTogetherPacket (.CRemotePlayTogether_Notification) returns (.NoResponse);
 	// ePrivilege=1
-	rpc SendSteamBroadcastPacket (.NotImplemented) returns (.NoResponse);
+	rpc SendSteamBroadcastPacket (.CRemoteClient_SteamBroadcast_Notification) returns (.NoResponse);
 	// ePrivilege=1
-	rpc SendSteamToSteamPacket (.NotImplemented) returns (.NoResponse);
+	rpc SendSteamToSteamPacket (.CRemoteClient_SteamToSteam_Notification) returns (.NoResponse);
 }
 

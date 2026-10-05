@@ -86,6 +86,13 @@ message CMDSAdmin_DepotIngestChunkReceived_Response {
 	repeated .CMDSAdmin_ChunkStorageLocation storage_locations = 3;
 }
 
+message CMDSAdmin_DepotIngestChunkStorageFailure_Notification {
+	optional uint32 appid = 1;
+	optional uint32 depot_id = 2;
+	optional fixed64 build_handle = 3;
+	optional bytes sha = 4;
+}
+
 message CMDSAdmin_DepotIngestChunkStored_Request {
 	optional uint32 appid = 1;
 	optional uint32 depot_id = 2;
@@ -178,7 +185,7 @@ service MDSAdmin {
 	// ePrivilege=1
 	rpc ChunkReceived (.CMDSAdmin_DepotIngestChunkReceived_Request) returns (.CMDSAdmin_DepotIngestChunkReceived_Response);
 	// ePrivilege=1
-	rpc ChunkStorageFailure (.NotImplemented) returns (.NoResponse);
+	rpc ChunkStorageFailure (.CMDSAdmin_DepotIngestChunkStorageFailure_Notification) returns (.NoResponse);
 	// ePrivilege=1
 	rpc ChunkStored (.CMDSAdmin_DepotIngestChunkStored_Request) returns (.CMDSAdmin_DepotIngestChunkStored_Response);
 	// ePrivilege=1

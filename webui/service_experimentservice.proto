@@ -1,7 +1,17 @@
 import "common_base.proto";
 
+message CProductImpressionsFromClient_Notification {
+	repeated .CProductImpressionsFromClient_Notification_Impression impressions = 1;
+}
+
+message CProductImpressionsFromClient_Notification_Impression {
+	optional int32 type = 1 [(.description) = "enum"];
+	optional uint32 appid = 2;
+	optional uint32 num_impressions = 3;
+}
+
 service ExperimentService {
 	// ePrivilege=1
-	rpc ReportProductImpressionsFromClient (.NotImplemented) returns (.NoResponse);
+	rpc ReportProductImpressionsFromClient (.CProductImpressionsFromClient_Notification) returns (.NoResponse);
 }
 

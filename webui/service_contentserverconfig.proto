@@ -1,4 +1,3 @@
-import "common.proto";
 import "common_base.proto";
 
 message CContentServerConfig_AllocateOpenCache_Request {
@@ -24,6 +23,10 @@ message CContentServerConfig_AllocateSteamCache_Response {
 	optional uint32 cache_id = 1;
 }
 
+message CContentServerConfig_AnonymousDepots_Notification {
+	repeated uint32 anon_session_allowed_depots = 2;
+}
+
 message CContentServerConfig_CDNConfigInfo {
 	optional string cdn_name = 1;
 	optional fixed32 timestamp = 2;
@@ -38,6 +41,41 @@ message CContentServerConfig_CheckManifestRequestCode_Request {
 
 message CContentServerConfig_CheckManifestRequestCode_Response {
 	optional bool is_valid = 1;
+}
+
+message CContentServerConfig_CMStats_Notification {
+	repeated .CContentServerConfig_CMStats_Notification_Stats stats = 1;
+}
+
+message CContentServerConfig_CMStats_Notification_Stats {
+	optional uint32 sysid_cm = 1;
+	optional uint32 current_load = 2;
+	optional uint32 rtime_last_updated = 3;
+}
+
+message CContentServerConfig_ContentServerStats_Notification {
+	repeated .CContentServerConfig_ContentServerStats_Notification_Stats stats = 1;
+	repeated .CContentServerConfig_ContentServerStats_Notification_CDNStats cdn_stats = 2;
+	repeated .CContentServerConfig_ContentServerStats_Notification_SteamCacheStats steamcache_stats = 3;
+}
+
+message CContentServerConfig_ContentServerStats_Notification_CDNStats {
+	optional string cdn_name = 1;
+	optional int32 current_load = 2;
+	optional uint32 rtime_last_updated = 3;
+}
+
+message CContentServerConfig_ContentServerStats_Notification_Stats {
+	optional uint32 cs_id = 1;
+	optional uint32 current_load = 2;
+	optional uint32 rtime_last_updated = 3;
+}
+
+message CContentServerConfig_ContentServerStats_Notification_SteamCacheStats {
+	optional uint32 cache_id = 1;
+	optional uint32 current_load = 2;
+	optional uint32 rtime_last_updated = 3;
+	optional uint32 load_adjustment = 4;
 }
 
 message CContentServerConfig_GetCDNConfigurations_Request {
@@ -208,6 +246,21 @@ message CContentServerConfig_IsDepotAllowedSteamChina_Response {
 	optional bool is_allowed = 1;
 }
 
+message CContentServerConfig_OpenCacheConfig {
+	optional uint32 cache_id = 1;
+	optional bool is_enabled = 2;
+	optional string host_name = 3;
+	optional string provider = 4;
+	optional uint32 cell_id = 5;
+	optional string config_json = 6;
+	optional string name = 7;
+	optional string ip_filter_list = 8;
+}
+
+message CContentServerConfig_OpenCacheConfigUpdate_Notification {
+	optional .CContentServerConfig_OpenCacheConfig config = 1;
+}
+
 message CContentServerConfig_RevSteamCacheAPIKey_Request {
 	optional uint32 cache_id = 1;
 	optional bool primary_key = 2;
@@ -243,6 +296,39 @@ message CContentServerConfig_SetSteamCachePerformanceStats_Request {
 message CContentServerConfig_SetSteamCachePerformanceStats_Response {
 	optional string config_json = 2;
 	optional uint32 load_calc_percent = 3;
+}
+
+message CContentServerConfig_SteamCacheConfig {
+	optional uint32 cache_id = 1;
+	optional bool is_enabled = 2;
+	optional string host_name = 3;
+	optional string provider = 4;
+	optional uint32 cell_id = 5;
+	optional string api_key_primary = 6;
+	optional string api_key_secondary = 7;
+	optional string config_json = 8;
+	optional string name = 9;
+	optional string ip_filter_list = 10;
+	optional uint32 timestamp = 11;
+}
+
+message CContentServerConfig_SteamCacheConfigUpdate_Notification {
+	optional .CContentServerConfig_SteamCacheConfig config = 1;
+}
+
+message CContentServerConfig_SteamCSConfig {
+	optional uint32 cs_id = 1;
+	optional bool is_enabled = 2;
+	optional string host_name = 3;
+	optional string provider = 4;
+	optional uint32 cell_id = 5;
+	optional string config_json = 8;
+	optional string name = 9;
+	optional string ip_filter_list = 10;
+}
+
+message CContentServerConfig_SteamCSConfigUpdate_Notification {
+	optional .CContentServerConfig_SteamCSConfig config = 1;
 }
 
 message CContentServerConfig_UpdateCDNConfig_Request {
@@ -308,13 +394,13 @@ service ContentServerConfig {
 	// ePrivilege=2, eWebAPIKeyRequirement=4
 	rpc AllocateSteamCacheNode (.CContentServerConfig_AllocateSteamCache_Request) returns (.CContentServerConfig_AllocateSteamCache_Response);
 	// ePrivilege=1
-	rpc AnonymousDepotsBroadcast (.NotImplemented) returns (.NoResponse);
+	rpc AnonymousDepotsBroadcast (.CContentServerConfig_AnonymousDepots_Notification) returns (.NoResponse);
 	// ePrivilege=1
 	rpc CheckManifestRequestCode (.CContentServerConfig_CheckManifestRequestCode_Request) returns (.CContentServerConfig_CheckManifestRequestCode_Response);
 	// ePrivilege=1
-	rpc CMLoadBroadcast (.NotImplemented) returns (.NoResponse);
+	rpc CMLoadBroadcast (.CContentServerConfig_CMStats_Notification) returns (.NoResponse);
 	// ePrivilege=1
-	rpc ContentServerStatsBroadcast (.NotImplemented) returns (.NoResponse);
+	rpc ContentServerStatsBroadcast (.CContentServerConfig_ContentServerStats_Notification) returns (.NoResponse);
 	// ePrivilege=1
 	rpc GetCDNConfigurations (.CContentServerConfig_GetCDNConfigurations_Request) returns (.CContentServerConfig_GetCDNConfigurations_Response);
 	// ePrivilege=1
@@ -342,7 +428,7 @@ service ContentServerConfig {
 	// ePrivilege=1
 	rpc IsDepotAllowedSteamChina (.CContentServerConfig_IsDepotAllowedSteamChina_Request) returns (.CContentServerConfig_IsDepotAllowedSteamChina_Response);
 	// ePrivilege=1
-	rpc OpenCacheConfigUpdateNotification (.NotImplemented) returns (.NoResponse);
+	rpc OpenCacheConfigUpdateNotification (.CContentServerConfig_OpenCacheConfigUpdate_Notification) returns (.NoResponse);
 	// ePrivilege=4
 	rpc RevSteamCacheAPIKey (.CContentServerConfig_RevSteamCacheAPIKey_Request) returns (.CContentServerConfig_RevSteamCacheAPIKey_Response);
 	// ePrivilege=0, eWebAPIKeyRequirement=2
@@ -350,9 +436,9 @@ service ContentServerConfig {
 	// ePrivilege=0, eWebAPIKeyRequirement=2
 	rpc SetSteamCachePerformanceStats (.CContentServerConfig_SetSteamCachePerformanceStats_Request) returns (.CContentServerConfig_SetSteamCachePerformanceStats_Response);
 	// ePrivilege=1
-	rpc SteamCacheConfigUpdateNotification (.NotImplemented) returns (.NoResponse);
+	rpc SteamCacheConfigUpdateNotification (.CContentServerConfig_SteamCacheConfigUpdate_Notification) returns (.NoResponse);
 	// ePrivilege=1
-	rpc SteamCSConfigUpdateNotification (.NotImplemented) returns (.NoResponse);
+	rpc SteamCSConfigUpdateNotification (.CContentServerConfig_SteamCSConfigUpdate_Notification) returns (.NoResponse);
 	// ePrivilege=1
 	rpc UpdateCDNConfig (.CContentServerConfig_UpdateCDNConfig_Request) returns (.CContentServerConfig_UpdateCDNConfig_Response);
 	// ePrivilege=1

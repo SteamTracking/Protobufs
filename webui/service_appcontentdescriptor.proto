@@ -29,9 +29,27 @@ message AppRatingAuxData {
 	repeated int32 descriptor_images = 6 [(.description) = "enum"];
 }
 
+message CAppContentDescriptors_GetActiveSurvey_Request {
+	optional uint32 appid = 1;
+	optional bool include_descriptors = 2;
+	optional bool include_keyvalues = 3;
+	optional bool include_categories = 4;
+	optional bool include_ai_survey = 5;
+	optional bool include_all_ratings = 6;
+}
+
 message CAppContentDescriptors_GetSurvey_Response {
 	optional uint64 surveyid = 1;
 	optional .ContentDescriptorSurvey survey = 2;
+}
+
+message CAppContentDescriptors_GetWorkingSurvey_Request {
+	optional uint32 appid = 1;
+	optional bool include_descriptors = 2;
+	optional bool include_keyvalues = 3;
+	optional bool include_categories = 4;
+	optional bool include_ai_survey = 5;
+	optional bool include_all_ratings = 6;
 }
 
 message ContentDescriptor {
@@ -109,8 +127,8 @@ message SurveySectionReviewed {
 
 service AppContentDescriptor {
 	// bConstMethod=true, ePrivilege=7
-	rpc GetActiveSurvey (.NotImplemented) returns (.CAppContentDescriptors_GetSurvey_Response);
+	rpc GetActiveSurvey (.CAppContentDescriptors_GetActiveSurvey_Request) returns (.CAppContentDescriptors_GetSurvey_Response);
 	// bConstMethod=true, ePrivilege=7
-	rpc GetWorkingSurvey (.NotImplemented) returns (.CAppContentDescriptors_GetSurvey_Response);
+	rpc GetWorkingSurvey (.CAppContentDescriptors_GetWorkingSurvey_Request) returns (.CAppContentDescriptors_GetSurvey_Response);
 }
 
