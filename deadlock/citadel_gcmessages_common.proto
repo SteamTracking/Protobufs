@@ -2,6 +2,7 @@ import "steammessages.proto";
 import "gcsdk_gcmessages.proto";
 import "base_gcmessages.proto";
 import "valveextensions.proto";
+import "networkbasetypes.proto";
 import "google/protobuf/descriptor.proto";
 
 option additional_includes = "citadel_constants.h";
@@ -854,6 +855,8 @@ message CMsgGCAccountData {
 }
 
 message CMsgHeroBuild {
+	option (maximum_size_bytes) = 16000;
+
 	message BuildModEntry {
 		optional uint32 ability_id = 1;
 		optional string annotation = 2;
