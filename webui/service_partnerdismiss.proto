@@ -36,11 +36,11 @@ message CPartnerDismiss_GetDismissTimeRange_Response {
 }
 
 service PartnerDismiss {
-	// ePrivilege=1
+	// ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc CreateDismiss (.CPartnerDismiss_CreateDismiss_Request) returns (.CPartnerDismiss_CreateDismiss_Response);
-	// ePrivilege=1
+	// ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc DeleteDismiss (.CPartnerDismiss_DeleteDismiss_Request) returns (.CPartnerDismiss_DeleteDismiss_Response);
-	// bConstMethod=true, ePrivilege=1
+	// bConstMethod=true, ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc GetDismissTimeRange (.CPartnerDismiss_GetDismissTimeRange_Request) returns (.CPartnerDismiss_GetDismissTimeRange_Response);
 }
 

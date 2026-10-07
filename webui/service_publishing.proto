@@ -216,17 +216,17 @@ message CPublishing_UpdatePartnerAppOptInEmail_Response {
 }
 
 service Publishing {
-	// ePrivilege=1
+	// ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc CreatePartnerAppOptInEmails (.CPublishing_CreatePartnerAppOptInEmail_Request) returns (.CPublishing_CreatePartnerAppOptInEmail_Response);
-	// ePrivilege=1
+	// ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc GetEstimatePartnerAppOptInEmail (.CPublishing_GetEstimatePartnerAppOptInEmail_Request) returns (.CPublishing_GetEstimatePartnerAppOptInEmail_Response);
-	// bConstMethod=true, ePrivilege=1
+	// bConstMethod=true, ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc GetOptInAppealsSummaryStats (.CPublishing_GetOptInAppealsSummaryStats_Request) returns (.CPublishing_GetOptInAppealsSummaryStats_Response);
-	// ePrivilege=1
+	// ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc GetOptInEmailTracking (.CPublishing_GetOptInEmailTracking_Request) returns (.CPublishing_GetOptInEmailTracking_Response);
 	// ePrivilege=4
 	rpc GetOptInHistoryInternal (.CPublishing_GetOptInHistoryInternal_Request) returns (.CPublishing_GetOptInHistoryInternal_Response);
-	// ePrivilege=1
+	// ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc GetPartnerAppOptInEmailDefAndStats (.CPublishing_GetPartnerAppOptInEmailDefAndStats_Request) returns (.CPublishing_GetPartnerAppOptInEmailDefAndStats_Response);
 	// bConstMethod=true, ePrivilege=1
 	rpc GetPartnerAppOptInsIDs (.CPublishing_GetPartnerAppOptInsIDs_Request) returns (.CPublishing_GetPartnerAppOptInsIDs_Response);
@@ -234,13 +234,13 @@ service Publishing {
 	rpc GetPartnerPaidGivenPackageList (.CPublishing_GetPartnerPaidGivenPackageList_Request) returns (.CPublishing_GetPartnerPaidGivenPackageList_Response);
 	// bConstMethod=true, ePrivilege=1
 	rpc GetSinglePartnerAppOptIn (.CPublishing_GetSinglePartnerAppOptIns_Request) returns (.CPublishing_GetSinglePartnerAppOptIns_Response);
-	// ePrivilege=1
+	// ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc SendPartnerOptInEmailAndWait (.CPublishing_SendPartnerAppOptInEmailAndWait_Request) returns (.CPublishing_SendPartnerAppOptInEmailAndWait_Response);
-	// ePrivilege=1
+	// ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc SetFeaturingOnPartnerAppOptIn (.CPublishing_SetFeaturingOnPartnerAppOptIn_Request) returns (.CPublishing_SetFeaturingOnPartnerAppOptIn_Response);
-	// ePrivilege=1
+	// ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc TestFirePartnerAppOptInEmail (.CPublishing_TestFirePartnerAppOptInEmail_Request) returns (.CPublishing_TestFirePartnerAppOptInEmail_Response);
-	// ePrivilege=1
+	// ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc UpdatePartnerAppOptInEmails (.CPublishing_UpdatePartnerAppOptInEmail_Request) returns (.CPublishing_UpdatePartnerAppOptInEmail_Response);
 }
 

@@ -88,17 +88,17 @@ message CDailyDealDetails {
 }
 
 service DailyDeal {
-	// ePrivilege=1
+	// ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc CancelDailyDeal (.CDailyDeal_CancelDailyDeal_Request) returns (.CDailyDeal_CancelDailyDeal_Response);
-	// ePrivilege=1
+	// ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc CreateDailyDeal (.CDailyDeal_CreateDailyDeal_Request) returns (.CDailyDeal_CreateDailyDeal_Response);
-	// ePrivilege=1
+	// ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc DeleteDailyDeal (.CDailyDeal_DeleteDailyDeal_Request) returns (.CDailyDeal_DeleteDailyDeal_Response);
-	// bConstMethod=true, ePrivilege=1
+	// bConstMethod=true, ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc GetDailyDeals (.CDailyDeal_GetDailyDeals_Request) returns (.CDailyDeal_GetDailyDeals_Response);
 	// bConstMethod=true, ePrivilege=4
 	rpc GetDailyDealsForApps (.CDailyDeal_GetDailyDealsForApps_Request) returns (.CDailyDeal_GetDailyDealsForApps_Response);
-	// ePrivilege=1
+	// ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc UpdateDailyDeal (.CDailyDeal_UpdateDailyDeal_Request) returns (.CDailyDeal_UpdateDailyDeal_Response);
 }
 

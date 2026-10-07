@@ -35,6 +35,7 @@ message CNews_GetNewsFeedByRepublishClan_Response {
 message CNews_PreviewPartnerEvents_Request {
 	optional string rss_url = 1;
 	optional uint32 lang = 2;
+	optional uint32 clan_account_id = 3;
 }
 
 message CNews_PreviewPartnerEvents_Response {

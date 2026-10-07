@@ -23,7 +23,7 @@ message CPromotionStats_GetOptInDemoStats_Response_PerAppStats {
 }
 
 service PromotionStats {
-	// bConstMethod=true, ePrivilege=1
+	// bConstMethod=true, ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc GetOptInDemoStats (.CPromotionStats_GetOptInDemoStats_Request) returns (.CPromotionStats_GetOptInDemoStats_Response);
 }
 

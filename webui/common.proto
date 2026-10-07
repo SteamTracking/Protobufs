@@ -527,7 +527,7 @@ message CClientNotificationTimedTrialRemaining {
 message CClientNotificationTimerExpired {
 }
 
-// Used by: Cloud, common.proto
+// Used by: common.proto
 message CCloud_PendingRemoteOperation {
 	optional int32 operation = 1 [(.description) = "enum"];
 	optional string machine_name = 2;
@@ -5272,6 +5272,10 @@ message CPhaseAttribute {
 	optional uint32 priority = 3;
 }
 
+message CProductInfo_ForceEmitPriceConversion {
+	optional int32 method = 1 [(.description) = "enum"];
+}
+
 message CQuitRequest {
 }
 
@@ -6629,6 +6633,14 @@ message CVRGamepadUI_Message_SetHMDSettings_Request {
 message CVRGamepadUI_Message_SetHMDSettings_Response {
 }
 
+message CVRGamepadUI_Message_SetPeripheralIndicatorSuppressed_Request {
+	optional int32 indicator = 1 [(.description) = "enum"];
+	optional bool suppressed = 2;
+}
+
+message CVRGamepadUI_Message_SetPeripheralIndicatorSuppressed_Response {
+}
+
 message CVRGamepadUI_Message_SetSpatializeEnabled_Request {
 	optional bool enabled = 1;
 }
@@ -7206,6 +7218,7 @@ message StoreGameRating {
 	optional int32 required_age = 10;
 	optional bool use_age_gate = 11;
 	repeated int32 descriptor_images = 12 [(.description) = "enum"];
+	optional string content_survey_notes = 13;
 	optional string image_url = 20;
 	optional string image_target = 21;
 }
@@ -7262,6 +7275,7 @@ message StoreItem {
 	optional .StoreItem_ExtraDetails extra_details = 75;
 	optional fixed64 gid = 76;
 	repeated .StoreItem_OptInRegistrationTags optin_registration_tags = 77;
+	repeated .StoreItem_PurchaseNote purchase_notes = 78;
 }
 
 // Used by: Checkout, MarketingMessages, PartnerStoreBrowse, SteamCharts, Store, StoreAppSimilarity, StoreBrowse, StoreMarketing, StoreQuery, StoreTopSellers, UserStoreVisit, Wishlist
@@ -7303,6 +7317,7 @@ message StoreItem_Assets {
 	optional string small_capsule_2x = 19;
 	optional string header_2x = 20;
 	optional uint32 last_modified = 21;
+	optional string creator_home_background = 22;
 }
 
 // Used by: Checkout, MarketingMessages, PartnerStoreBrowse, SteamCharts, Store, StoreAppSimilarity, StoreBrowse, StoreMarketing, StoreQuery, StoreTopSellers, UserStoreVisit, Wishlist
@@ -7514,6 +7529,7 @@ message StoreItem_Platforms {
 message StoreItem_Platforms_VRSupport {
 	optional bool vrhmd = 1;
 	optional bool vrhmd_only = 2;
+	optional bool show_optional_vr_mode_notice = 3;
 	optional bool htc_vive = 40;
 	optional bool oculus_rift = 41;
 	optional bool windows_mr = 42;
@@ -7532,6 +7548,13 @@ message StoreItem_PressReview {
 	optional string score = 2;
 	optional string site = 3;
 	optional string url = 4;
+}
+
+// Used by: Checkout, MarketingMessages, PartnerStoreBrowse, SteamCharts, Store, StoreAppSimilarity, StoreBrowse, StoreMarketing, StoreQuery, StoreTopSellers, UserStoreVisit, Wishlist
+message StoreItem_PurchaseNote {
+	optional int32 type = 1 [(.description) = "enum"];
+	optional bool highlighted = 2;
+	optional string text_bbcode = 3;
 }
 
 // Used by: Checkout, MarketingMessages, PartnerStoreBrowse, SteamCharts, Store, StoreAppSimilarity, StoreBrowse, StoreMarketing, StoreQuery, StoreTopSellers, UserStoreVisit, Wishlist

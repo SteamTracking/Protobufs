@@ -338,35 +338,35 @@ message CPromotionPlanning_UpdatePlan_Response {
 }
 
 service PromotionPlanning {
-	// ePrivilege=1
+	// ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc CreatePlan (.CPromotionPlanning_CreatePlan_Request) returns (.CPromotionPlanning_CreatePlan_Response);
-	// ePrivilege=1
+	// ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc CreateSalePageForPromo (.CPromotionPlan_CreateSalePageForPromo_Request) returns (.CPromotionPlan_CreateSalePageForPromo_Response);
 	// ePrivilege=1
 	rpc CreateTentativePlan (.CPromotionPlanning_CreatePlan_Request) returns (.CPromotionPlanning_CreatePlan_Response);
-	// ePrivilege=1
+	// ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc DeletePlan (.CPromotionPlanning_DeletePlan_Request) returns (.CPromotionPlanning_DeletePlan_Response);
-	// bConstMethod=true, ePrivilege=1
+	// bConstMethod=true, ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc GetAdvertisingAppsForPartner (.CPromotionPlanning_GetAdvertisingAppsForPartner_Request) returns (.CPromotionPlanning_GetAdvertisingAppsForPartner_Response);
-	// bConstMethod=true, ePrivilege=1
+	// bConstMethod=true, ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc GetAllActivePlan (.CPromotionPlanning_GetAllActivePlan_Request) returns (.CPromotionPlanning_GetAllActivePlan_Response);
-	// bConstMethod=true, ePrivilege=4
+	// bConstMethod=true, ePrivilege=4, rgBrowserAPISites=ArrayExpression
 	rpc GetAllPlansForApps (.CPromotionPlanning_GetAllPlansForApps_Request) returns (.CPromotionPlanning_GetAllPlansForApps_Response);
-	// bConstMethod=true, ePrivilege=1
+	// bConstMethod=true, ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc GetPlan (.CPromotionPlanning_GetPlan_Request) returns (.CPromotionPlanning_GetPlan_Response);
 	// bConstMethod=true, ePrivilege=1
 	rpc GetPlanByAssociationID (.CPromotionPlanning_GetPlanByAssociationID_Request) returns (.CPromotionPlanning_GetPlanByAssociationID_Response);
 	// bConstMethod=true, ePrivilege=0, eWebAPIKeyRequirement=1
 	rpc GetPlanByInputAccessKey (.CPromotionPlanning_GetPlanByInputAccessKey_Request) returns (.CPromotionPlanning_GetPlanByInputAccessKey_Response);
-	// bConstMethod=true, ePrivilege=1
+	// bConstMethod=true, ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc GetPlanCompletedInDateRange (.CPromotionPlanning_GetPlanCompletedInDateRange_Request) returns (.CPromotionPlanning_GetPlanCompletedInDateRange_Response);
-	// bConstMethod=true, ePrivilege=1
+	// bConstMethod=true, ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc GetPlansUpdatedSince (.CPromotionPlanning_GetPlansUpdatedSince_Request) returns (.CPromotionPlanning_GetPlansUpdatedSince_Response);
-	// bConstMethod=true, ePrivilege=4
+	// bConstMethod=true, ePrivilege=4, rgBrowserAPISites=ArrayExpression
 	rpc GetPromotionPlanForSalePages (.CPromotionPlanning_GetPromotionPlanForSalePages_Request) returns (.CPromotionPlanning_GetPromotionPlanForSalePages_Response);
-	// bConstMethod=true, ePrivilege=1
+	// bConstMethod=true, ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc GetPromotionPlanSalesDaily (.CPromotionPlan_GetPromotionPlanSalesDaily_Request) returns (.CPromotionPlan_GetPromotionPlanSalesDaily_Response);
-	// bConstMethod=true, ePrivilege=1
+	// bConstMethod=true, ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc GetSalePageCandidatesForPromo (.CPromotionPlanning_GetSalePageCandidatesForPromo_Request) returns (.CPromotionPlanning_GetSalePageCandidatesForPromo_Response);
 	// bConstMethod=true, ePrivilege=1
 	rpc GetSentNotification (.CPromotionPlanning_GetSentNotification_Request) returns (.CPromotionPlanning_GetSentNotification_Response);
@@ -382,11 +382,11 @@ service PromotionPlanning {
 	rpc SendNotification (.CPromotionPlanning_SendNotification_Request) returns (.CPromotionPlanning_SendNotification_Response);
 	// ePrivilege=1
 	rpc SetPromotionEmailTarget (.CPromotionPlanning_SetPromotionEmailTarget_Request) returns (.CPromotionPlanning_SetPromotionEmailTarget_Response);
-	// ePrivilege=1
+	// ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc UpdatePlan (.CPromotionPlanning_UpdatePlan_Request) returns (.CPromotionPlanning_UpdatePlan_Response);
-	// ePrivilege=2, eWebAPIKeyRequirement=1
+	// ePrivilege=2, eWebAPIKeyRequirement=1, rgBrowserAPISites=ArrayExpression
 	rpc UpdatePlanInputData (.CPromotionPlanning_UpdatePlan_Request) returns (.CPromotionPlanning_UpdatePlan_Response);
-	// ePrivilege=1
+	// ePrivilege=1, rgBrowserAPISites=ArrayExpression
 	rpc UpdatePlanPartnerInfo (.CPromotionPlanning_UpdatePlan_Request) returns (.CPromotionPlanning_UpdatePlan_Response);
 }
 
