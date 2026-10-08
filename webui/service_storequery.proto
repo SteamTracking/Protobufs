@@ -106,12 +106,18 @@ message CStoreQueryFilters {
 	repeated int32 content_descriptors_must_match = 15 [(.description) = "enum"];
 	repeated int32 content_descriptors_excluded = 16 [(.description) = "enum"];
 	optional .CStoreQueryFilters_DiscountedDatesFilter discounted_dates_filter = 17;
+	optional .CStoreQueryFilters_CompatibilityFilter compatibility_filter = 18;
 	optional int32 regional_top_n_sellers = 40;
 	optional int32 global_top_n_sellers = 41;
 	optional int32 regional_long_term_top_n_sellers = 42;
 	optional int32 global_long_term_top_n_sellers = 43;
 	optional .CStorePageFilter store_page_filter = 44;
 	repeated uint32 parent_appids = 45;
+}
+
+message CStoreQueryFilters_CompatibilityFilter {
+	optional int32 device = 1 [(.description) = "enum"];
+	repeated int32 categories = 2 [(.description) = "enum"];
 }
 
 message CStoreQueryFilters_DiscountedDatesFilter {
