@@ -228,6 +228,7 @@ message CMsgClientSettings {
 	optional bool startup_movie_used_for_resume = 16003 [(setting_store) = k_EClientSettingStore_ConfigStore_UserLocal, (setting_name) = "Customization/StartupMovie/UsedForResume"];
 	optional string screensaver_current_id = 16004 [(setting_store) = k_EClientSettingStore_ConfigStore_Install, (setting_name) = "Customization/Screensaver/CurrentScreensaver"];
 	optional string screensaver_settings = 16005 [(setting_store) = k_EClientSettingStore_ConfigStore_Install, (setting_name) = "Customization/Screensaver/Settings"];
+	optional bool screensaver_while_ingame = 16006 [(setting_store) = k_EClientSettingStore_ConfigStore_Install, (setting_name) = "Customization/Screensaver/WhileInGame", (setting_default_bool) = true];
 	optional bool game_notes_enable_spellcheck = 17001 [(setting_store) = k_EClientSettingStore_ConfigStore_UserRoaming, (setting_name) = "GameNotesEnableSpellcheck", (setting_default_bool) = true];
 	optional int32 screenshot_items_per_row = 18000 [(setting_store) = k_EClientSettingStore_ConfigStore_UserRoaming, (setting_name) = "ScreenshotViewItemsPerRow", (setting_default_int) = 1];
 	optional string gamerecording_background_path = 18201 [(setting_store) = k_EClientSettingStore_CustomFunc];

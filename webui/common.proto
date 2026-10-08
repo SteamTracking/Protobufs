@@ -2632,6 +2632,7 @@ message CMsgClientSettings {
 	optional bool startup_movie_used_for_resume = 16003;
 	optional string screensaver_current_id = 16004;
 	optional string screensaver_settings = 16005;
+	optional bool screensaver_while_ingame = 16006;
 	optional bool game_notes_enable_spellcheck = 17001;
 	optional int32 screenshot_items_per_row = 18000;
 	optional string gamerecording_background_path = 18201;
@@ -6910,6 +6911,16 @@ message CVRGamepadUIShared_PathProperty_HMDSettings {
 	optional bool record_tracking_value = 53;
 	optional string performance_profile_name = 54;
 	optional string playtime_profile_name = 55;
+}
+
+message CVRGamepadUIShared_PathProperty_PeripheralIndicators {
+	repeated .CVRGamepadUIShared_PathProperty_PeripheralIndicators_Indicator indicators = 1;
+}
+
+// Used by: common.proto
+message CVRGamepadUIShared_PathProperty_PeripheralIndicators_Indicator {
+	optional int32 type = 1 [(.description) = "enum"];
+	optional bool is_suppressed = 2;
 }
 
 message CVRGamepadUIShared_PathProperty_PowerOptions {
