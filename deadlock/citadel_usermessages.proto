@@ -449,6 +449,7 @@ message CCitadelUserMsg_HeroKilled {
 	optional int32 victim_team_number = 7;
 	optional int32 killfeed_gold = 8;
 	optional uint32 killer_ability_id = 9 [boxed_type = "EntitySubclassID_t"];
+	optional bool first_blood = 10;
 }
 
 message CCitadelEntityMsg_BreakablePropSpawnDebris {
