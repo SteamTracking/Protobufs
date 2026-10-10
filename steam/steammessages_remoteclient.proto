@@ -204,9 +204,18 @@ message CMsgRemoteClientStartStream {
 	optional int32 maximum_framerate_denominator = 13;
 	optional bool display_hdr = 14;
 	optional bool launch_only = 15 [default = false];
+	optional int32 gaming_device_type = 16;
+	optional int32 cloud_conflict_resolution = 17 [default = -1];
+	optional int32 controller_config_conflict_resolution = 18 [default = -1];
 }
 
 message CMsgRemoteClientStartStreamResponse {
+	message CloudConflict {
+		optional uint32 appid = 1;
+		optional uint32 local_time = 2;
+		optional uint32 remote_time = 3;
+	}
+
 	optional int32 e_launch_result = 1 [default = 2];
 	optional uint32 stream_port = 2;
 	repeated int32 launch_options = 3;
@@ -219,6 +228,7 @@ message CMsgRemoteClientStartStreamResponse {
 	optional int32 launch_tasks_total = 10;
 	optional string vr_connection_params = 11;
 	optional bool launch_only = 12 [default = false];
+	optional .CMsgRemoteClientStartStreamResponse.CloudConflict cloud_conflict = 13;
 }
 
 message CMsgRemoteClientPing {

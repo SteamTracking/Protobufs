@@ -3851,6 +3851,9 @@ message CMsgRemoteClientStartStream {
 	optional int32 maximum_framerate_denominator = 13;
 	optional bool display_hdr = 14;
 	optional bool launch_only = 15 [default = false];
+	optional int32 gaming_device_type = 16;
+	optional int32 cloud_conflict_resolution = 17 [default = -1];
+	optional int32 controller_config_conflict_resolution = 18 [default = -1];
 }
 
 // Used by: common.proto
@@ -3872,6 +3875,14 @@ message CMsgRemoteClientStartStreamResponse {
 	optional int32 launch_tasks_total = 10;
 	optional string vr_connection_params = 11;
 	optional bool launch_only = 12 [default = false];
+	optional .CMsgRemoteClientStartStreamResponse_CloudConflict cloud_conflict = 13;
+}
+
+// Used by: common.proto
+message CMsgRemoteClientStartStreamResponse_CloudConflict {
+	optional uint32 appid = 1;
+	optional uint32 local_time = 2;
+	optional uint32 remote_time = 3;
 }
 
 message CMsgRemoteClientStatus {
@@ -6600,6 +6611,14 @@ message CVRGamepadUI_Message_ResetHMDSettings_Request {
 }
 
 message CVRGamepadUI_Message_ResetHMDSettings_Response {
+}
+
+message CVRGamepadUI_Message_SetAppVRInputPreference_Request {
+	optional uint32 app_id = 1;
+	optional bool prefers_steam_input = 2;
+}
+
+message CVRGamepadUI_Message_SetAppVRInputPreference_Response {
 }
 
 message CVRGamepadUI_Message_SetCurrentLanguage_Request {
