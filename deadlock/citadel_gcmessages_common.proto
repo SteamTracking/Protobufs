@@ -523,6 +523,8 @@ message CMsgMatchPlayerDamageMatrix {
 		k_eType_Mitigated = 3;
 		k_eType_LethalDamage = 4;
 		k_eType_Regen = 5;
+		k_eType_CrowdControl = 6;
+		k_eType_MitigatedBySource = 7;
 	}
 
 	repeated .CMsgMatchPlayerDamageMatrix.DamageDealer damage_dealers = 1;
