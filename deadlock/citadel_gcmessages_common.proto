@@ -439,7 +439,6 @@ message CSOCitadelParty {
 	optional .ECitadelGameMode game_mode = 10 [default = k_ECitadelGameMode_Invalid];
 	optional uint32 match_making_start_time = 11;
 	optional string server_search_key = 12;
-	optional bool is_high_skill_range_party = 13;
 	optional .CSOCitadelParty.EChatMode chat_mode = 14 [default = k_eNone];
 	optional .ECitadelRegionMode region_mode = 15 [default = k_ECitadelRegionMode_ROW];
 	optional bool is_private_lobby = 16;
