@@ -77,6 +77,8 @@ enum CitadelUserMessageIds {
 	k_EUserMsg_LocalLobby = 371;
 	k_EUserMsg_SoulBagPickup = 372;
 	k_EUserMsg_HeroReleaseVote = 373;
+	k_EUserMsg_ItemAcquired = 374;
+	k_EUserMsg_MapTargetingCursor = 375;
 }
 
 enum CitadelEntityMessageIds {
@@ -248,6 +250,13 @@ message CCitadelUserMsg_ItemDraftReaction {
 message CCitadelUserMsg_MapLine {
 	optional int32 sender_player_slot = 1 [default = -1, boxed_type = "CPlayerSlot", synthetic_default = "-1"];
 	optional .CMsgMapLine mapline = 2;
+}
+
+message CCitadelUserMsg_MapTargetingCursor {
+	optional int32 sender_player_slot = 1 [default = -1, boxed_type = "CPlayerSlot", synthetic_default = "-1"];
+	optional int32 x = 2;
+	optional int32 y = 3;
+	optional bool active = 4;
 }
 
 message CCitadelUserMsg_TeamRewards {
@@ -760,6 +769,13 @@ message CCitadelUserMsg_SoulBagPickup {
 	optional uint32 pickup_player = 1 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
 	optional uint32 victim_player = 2 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
 	optional int32 killfeed_gold = 3;
+}
+
+message CCitadelUserMsg_ItemAcquired {
+	optional uint32 player = 1 [default = 16777215, boxed_type = "CEHandleNetworkableInt", synthetic_default = "16777215"];
+	optional uint32 ability_id = 2 [boxed_type = "EntitySubclassID_t"];
+	optional uint32 upgrade_bits = 3 [boxed_type = "CitadelAbilityUpgradeInfoPacked_t"];
+	optional bool purchased = 4;
 }
 
 message CCitadelUserMsg_HeroReleaseVote {

@@ -30,6 +30,7 @@ enum ECitadelClientMessages {
 	CITADEL_CM_PlayerTyping = 1026;
 	CITADEL_CM_HideoutInteract = 1027;
 	CITADEL_CM_HeroReleaseVote = 1028;
+	CITADEL_CM_MapTargetingCursor = 1029;
 }
 
 message CCitadelClientMsg_Pause {
@@ -68,6 +69,12 @@ message CCitadelClientMsg_AbilityPing {
 
 message CCitadelClientMsg_MapLine {
 	optional .CMsgMapLine mapline = 1;
+}
+
+message CCitadelClientMsg_MapTargetingCursor {
+	optional int32 x = 1;
+	optional int32 y = 2;
+	optional bool active = 3;
 }
 
 message CCitadelClientMsg_QuickResponse {

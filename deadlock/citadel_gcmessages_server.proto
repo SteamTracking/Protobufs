@@ -685,6 +685,7 @@ message CMsgMatchData {
 		optional uint32 flags = 5;
 		optional uint32 imbued_ability_id = 6;
 		optional uint32 upgrade_info = 7 [boxed_type = "CitadelAbilityUpgradeInfoPacked_t"];
+		optional uint32 purchase_source = 8;
 	}
 
 	message AuxStat {

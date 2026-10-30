@@ -399,6 +399,8 @@ message CSOAccountHeroInfo {
 	optional uint32 wins = 4;
 	optional uint32 hero_xp = 6 [boxed_type = "HeroBadgeXP_t"];
 	optional uint32 brawl_wins = 7;
+	optional uint32 losses = 8;
+	optional uint32 brawl_losses = 9;
 }
 
 message CSOAccountChallenge {
